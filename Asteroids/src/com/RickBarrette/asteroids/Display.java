@@ -36,6 +36,7 @@ public class Display extends JPanel {
 	private static final long serialVersionUID = -9105117186423881937L;
 	private AsteroidGame mGame;
 	private Container mContainer;
+	private String mText;
 
 	/**
 	 * Creates a new Dispay
@@ -57,6 +58,11 @@ public class Display extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
+		if(mText != null){
+			g.setColor(Color.ORANGE);
+			g.drawString(mText, this.getHeight() /2 , this.getWidth() / 2);
+		}
 
 		/*
 		 * Move & Draw the world's objects
@@ -71,5 +77,9 @@ public class Display extends JPanel {
 			if(item instanceof Drawable)
 				((Drawable) item).draw(g);
 		}
+	}
+
+	public void setDisplayText(String string) {
+		mText = string;		
 	}
 }

@@ -73,57 +73,49 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 	 */
 	@Override
 	public void move(int scrnWidth, int scrnHeight) {
-		
-		if(Main.DEBUG){
-			System.out.println("Move "+ scrnWidth +" x "+ scrnHeight);
-			System.out.println("angle "+mAngle);
-			System.out.println("xVelocity = "+mXVelocity);
-			System.out.println("yVelocity = "+mYVelocity);
-			System.out.println("yX = "+mX);
-			System.out.println("yY = "+mY);
-		}
-		
-		/*
-		 * this is backwards from typical polar coordinates
-		 * because positive y is downward.
-		 */
-		if (isTurningLeft)
-			mAngle -= mRotationalSpeed; 
-		/*
-		 * Because of that, adding to the angle is
-		 * rotating clockwise (to the right)
-		 */
-		if (isTurningRight)
-			mAngle += mRotationalSpeed; 
-
-		// Keep angle within bounds of 0 to 2*PI
-		if (mAngle > (2 * Math.PI)) 
-			mAngle -= (2 * Math.PI);
-		else if (mAngle < 0)
-			mAngle += (2 * Math.PI);
-		
-		// adds accel to velocity in direction pointed
-		if (isAccelerating) {
-			if(Main.DEBUG)
-				System.out.println("accelerating by "+mAcceleration);
+		if(isActive){
+			/*
+			 * this is backwards from typical polar coordinates
+			 * because positive y is downward.
+			 */
+			if (isTurningLeft)
+				mAngle -= mRotationalSpeed; 
+			/*
+			 * Because of that, adding to the angle is
+			 * rotating clockwise (to the right)
+			 */
+			if (isTurningRight)
+				mAngle += mRotationalSpeed; 
+	
+			// Keep angle within bounds of 0 to 2*PI
+			if (mAngle > (2 * Math.PI)) 
+				mAngle -= (2 * Math.PI);
+			else if (mAngle < 0)
+				mAngle += (2 * Math.PI);
 			
-			// calculates components of accel and adds them to velocity
-			mXVelocity += mAcceleration * Math.cos(mAngle);
-			mYVelocity += mAcceleration * Math.sin(mAngle);
+			// adds accel to velocity in direction pointed
+			if (isAccelerating) {
+				if(Main.DEBUG)
+					System.out.println("accelerating by "+mAcceleration);
+				
+				// calculates components of accel and adds them to velocity
+				mXVelocity += mAcceleration * Math.cos(mAngle);
+				mYVelocity += mAcceleration * Math.sin(mAngle);
+			}
+			
+			// move the space object by adding velocity to position
+			mX += mXVelocity; 
+			mY += mYVelocity;
+			
+			/*
+			 *  slows ship down by percentages (velDecay
+			 *  should be a decimal between 0 and 1
+			 */
+			mXVelocity *= mVelocityDecay; 
+			mYVelocity *= mVelocityDecay; 
+			
+			wrapSpace(scrnHeight, scrnWidth);
 		}
-		
-		// move the space object by adding velocity to position
-		mX += mXVelocity; 
-		mY += mYVelocity;
-		
-		/*
-		 *  slows ship down by percentages (velDecay
-		 *  should be a decimal between 0 and 1
-		 */
-		mXVelocity *= mVelocityDecay; 
-		mYVelocity *= mVelocityDecay; 
-		
-		wrapSpace(scrnHeight, scrnWidth);
 	}
 
 	/**

@@ -51,6 +51,10 @@ public class GameFrame extends JFrame implements KeyListener{
 	private menuListener xlistener;
 	private AsteroidGame mGame;
 
+	private JMenuItem mMenuStartGame;
+
+	private JMenuItem mMenuPauseGame;
+
 	/**
 	 * Creates a new GameFrame
 	 * 
@@ -67,9 +71,14 @@ public class GameFrame extends JFrame implements KeyListener{
 		mMenu = new JMenu("File");
 
 		mMenuNewGame = new JMenuItem("New Game");
+		mMenuStartGame = new JMenuItem("Start");
+		mMenuPauseGame = new JMenuItem("Pause");
 		mMenuQuit = new JMenuItem("Quit");
 
 		mMenu.add(mMenuNewGame);
+		mMenu.addSeparator();
+		mMenu.add(mMenuStartGame);
+		mMenu.add(mMenuPauseGame);
 		mMenu.addSeparator();
 		mMenu.add(mMenuQuit);
 
@@ -87,7 +96,9 @@ public class GameFrame extends JFrame implements KeyListener{
 		xlistener = new menuListener();
 		mMenuNewGame.addActionListener(xlistener);
 		mMenuQuit.addActionListener(xlistener);
-
+		mMenuStartGame.addActionListener(xlistener);
+		mMenuPauseGame.addActionListener(xlistener);
+		
 		addKeyListener(this);
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -102,6 +113,16 @@ public class GameFrame extends JFrame implements KeyListener{
 		mDisplay.repaint();
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see java.awt.Component#repaint()
+	 */
+	@Override
+	public void repaint() {
+		mDisplay.repaint();
+		super.repaint();
+	}
+
 	private class menuListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -109,6 +130,12 @@ public class GameFrame extends JFrame implements KeyListener{
 				mGame.newGame();
 				mDisplay.repaint();
 
+			}
+			if (e.getActionCommand().equals("Start")) {
+				mGame.startGame();
+			}
+			if (e.getActionCommand().equals("Pause")) {
+				mGame.pause();
 			}
 			if (e.getActionCommand().equals("Quit"))
 				System.exit(0);
@@ -272,8 +299,7 @@ public class GameFrame extends JFrame implements KeyListener{
 	public void setMovingSpaceObjectsEnabled(boolean b) {
 		for(Object item : mGame.getWorld())
 			if(item instanceof MovingSpaceObject)
-				((MovingSpaceObject) item).setActive(b);
-		
+				((MovingSpaceObject) item).setActive(b);	
 	}
 
 	/**
@@ -281,5 +307,10 @@ public class GameFrame extends JFrame implements KeyListener{
 	 */
 	public Status getStatusBar() {
 		return mStatusBar;
+	}
+
+	public void setDisplayText(String string) {
+		mDisplay.setDisplayText(string);
+		this.repaint();
 	}
 }

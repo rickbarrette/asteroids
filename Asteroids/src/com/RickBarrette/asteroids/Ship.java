@@ -44,7 +44,7 @@ public class Ship extends MovingSpaceObject implements Drawable {
 	/*
 	 * radius of circle used to approximate the ship
 	 */
-	private final int radius = 6;
+	private final int mRadius = 6;
 	
 	/**
 	 * Creates a new ship
@@ -140,7 +140,7 @@ public class Ship extends MovingSpaceObject implements Drawable {
 	 * @author ricky barrette
 	 */
 	public double getRadius() {
-		return radius;
+		return mRadius;
 	}
 
 	/**
