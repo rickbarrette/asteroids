@@ -123,20 +123,9 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 		mXVelocity *= mVelocityDecay; 
 		mYVelocity *= mVelocityDecay; 
 		
-		/*
-		 * wrap the ship around to the opposite side of the screen
-		 * when it goes out of the screen's bounds
-		 */
-		if (mX < 0)
-			mX += scrnHeight; 
-		else if (mX > scrnHeight)
-			mX -= scrnHeight;
-		if (mY < 0)
-			mY += scrnWidth;
-		else if (mY > scrnWidth)
-			mY -= scrnWidth;
+		wrapSpace(scrnHeight, scrnWidth);
 	}
-	
+
 	/**
 	 * Sets wether or not this space object is accelerating
 	 * (non-Javadoc)
@@ -176,4 +165,19 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 		this.isTurningRight = turningRight;
 	}
 	
+	/**
+	 * wraps the space object around to the opposite side of the screen
+	 * when it goes out of the screen's bounds
+	 * @author ricky barrette
+	 */
+	public void wrapSpace(int scrnHeight, int scrnWidth) {
+		if (mX < 0)
+			mX += scrnHeight; 
+		else if (mX > scrnHeight)
+			mX -= scrnHeight;
+		if (mY < 0)
+			mY += scrnWidth;
+		else if (mY > scrnWidth)
+			mY -= scrnWidth;
+	}
 }

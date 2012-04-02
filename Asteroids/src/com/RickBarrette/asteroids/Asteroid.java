@@ -23,9 +23,9 @@ package com.RickBarrette.asteroids;
 import java.awt.Color;
 import java.awt.Graphics;
 
-
 /**
  * This class will be used to make astroids, to destroy the ship!
+ * 
  * @author ricky barrette
  */
 public class Asteroid extends MovingSpaceObject implements Drawable {
@@ -37,23 +37,27 @@ public class Asteroid extends MovingSpaceObject implements Drawable {
 
 	/**
 	 * Creates a new Asteroid
-	 * @param x 
+	 * 
+	 * @param x
 	 * @param y
 	 * @param xVelocity
 	 * @param yVelocity
-	 * @param numberSplit number of smaller asteroids to create after being blown up
-	 * @param hitsLeft number of hits left
+	 * @param numberSplit
+	 *            number of smaller asteroids to create after being blown up
+	 * @param hitsLeft
+	 *            number of hits left
 	 * @author ricky barrette
 	 */
-	public Asteroid(double x, double y, double minVelocity, double maxVelocity, int radius, int numberSplit, int hitsLeft, AsteroidGame game) {
+	public Asteroid(double x, double y, double minVelocity, double maxVelocity,
+			int radius, int numberSplit, int hitsLeft, AsteroidGame game) {
 		mGame = game;
 		mColor = Color.GRAY;
 		mX = x;
 		mY = y;
-		double vel=minVelocity + Math.random()*(maxVelocity-minVelocity);
-		mAngle = 2*Math.PI*Math.random(); // random direction
-		mXVelocity=vel*Math.cos(mAngle);
-		mYVelocity=vel*Math.sin(mAngle);
+		double vel = minVelocity + Math.random() * (maxVelocity - minVelocity);
+		mAngle = 2 * Math.PI * Math.random(); // random direction
+		mXVelocity = vel * Math.cos(mAngle);
+		mYVelocity = vel * Math.sin(mAngle);
 
 		mNumberSplit = numberSplit;
 		mHitsLeft = hitsLeft;
@@ -64,8 +68,26 @@ public class Asteroid extends MovingSpaceObject implements Drawable {
 
 	@Override
 	public void draw(Graphics g) {
-		g.setColor(mColor); 
-		g.fillOval((int)(mX-mRadius+.5),(int)(mY-mRadius+.5), (int)(2*mRadius),(int)(2*mRadius));
+		g.setColor(mColor);
+		g.fillOval((int) (mX - mRadius + .5), (int) (mY - mRadius + .5),
+				(int) (2 * mRadius), (int) (2 * mRadius));
 
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.RickBarrette.asteroids.MovingSpaceObject#wrapSpace(int, int)
+	 */
+	@Override
+	public void wrapSpace(int scrnHeight, int scrnWidth) {
+		if (mX < 0 - mRadius)
+			mX += scrnHeight + 2 * mRadius;
+		else if (mX > scrnHeight + mRadius)
+			mX -= scrnHeight + 2 * mRadius;
+		
+		if (mY < 0 - mRadius)
+			mY += scrnWidth + 2 * mRadius;
+		else if (mY > scrnWidth + mRadius)
+			mY -= scrnWidth + 2 * mRadius;
 	}
 }
