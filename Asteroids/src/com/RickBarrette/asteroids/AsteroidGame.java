@@ -60,6 +60,7 @@ public class AsteroidGame extends Thread {
 	public void createGame() {
 		mWorld = new Vector<Object>();
 		mWorld.add(new Ship(100,100,0,.35,.98,.4,1));
+		mWorld.add(new Asteroid(500, 500, 1, 10, 50, 3, 3, this));
 	}
 
 	public Vector<Object> getWorld() {

@@ -29,8 +29,8 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 	protected double mAngle;
 	protected double mVelocityDecay;
 	protected double mRotationalSpeed;
-	protected double xVelocity = 0;
-	protected double yVelocity = 0;
+	protected double mXVelocity = 0;
+	protected double mYVelocity = 0;
 	protected double mAcceleration;	
 	protected boolean isTurningLeft = false, isTurningRight = false, isAccelerating = false, isActive;
 
@@ -77,8 +77,8 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 		if(Main.DEBUG){
 			System.out.println("Move "+ scrnWidth +" x "+ scrnHeight);
 			System.out.println("angle "+mAngle);
-			System.out.println("xVelocity = "+xVelocity);
-			System.out.println("yVelocity = "+yVelocity);
+			System.out.println("xVelocity = "+mXVelocity);
+			System.out.println("yVelocity = "+mYVelocity);
 			System.out.println("yX = "+mX);
 			System.out.println("yY = "+mY);
 		}
@@ -108,20 +108,20 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 				System.out.println("accelerating by "+mAcceleration);
 			
 			// calculates components of accel and adds them to velocity
-			xVelocity += mAcceleration * Math.cos(mAngle);
-			yVelocity += mAcceleration * Math.sin(mAngle);
+			mXVelocity += mAcceleration * Math.cos(mAngle);
+			mYVelocity += mAcceleration * Math.sin(mAngle);
 		}
 		
 		// move the space object by adding velocity to position
-		mX += xVelocity; 
-		mY += yVelocity;
+		mX += mXVelocity; 
+		mY += mYVelocity;
 		
 		/*
 		 *  slows ship down by percentages (velDecay
 		 *  should be a decimal between 0 and 1
 		 */
-		xVelocity *= mVelocityDecay; 
-		yVelocity *= mVelocityDecay; 
+		mXVelocity *= mVelocityDecay; 
+		mYVelocity *= mVelocityDecay; 
 		
 		/*
 		 * wrap the ship around to the opposite side of the screen

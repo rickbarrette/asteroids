@@ -20,19 +20,52 @@
  */
 package com.RickBarrette.asteroids;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 
 /**
  * This class will be used to make astroids, to destroy the ship!
  * @author ricky barrette
  */
-public class Asteroid extends MovingSpaceObject {
+public class Asteroid extends MovingSpaceObject implements Drawable {
+
+	private final int mNumberSplit;
+	private final int mHitsLeft;
+	private final int mRadius;
+	private AsteroidGame mGame;
 
 	/**
 	 * Creates a new Asteroid
+	 * @param x 
+	 * @param y
+	 * @param xVelocity
+	 * @param yVelocity
+	 * @param numberSplit number of smaller asteroids to create after being blown up
+	 * @param hitsLeft number of hits left
 	 * @author ricky barrette
 	 */
-	public Asteroid() {
-		// TODO Asteroid stuff
+	public Asteroid(double x, double y, double minVelocity, double maxVelocity, int radius, int numberSplit, int hitsLeft, AsteroidGame game) {
+		mGame = game;
+		mColor = Color.GRAY;
+		mX = x;
+		mY = y;
+		double vel=minVelocity + Math.random()*(maxVelocity-minVelocity);
+		mAngle = 2*Math.PI*Math.random(); // random direction
+		mXVelocity=vel*Math.cos(mAngle);
+		mYVelocity=vel*Math.sin(mAngle);
+
+		mNumberSplit = numberSplit;
+		mHitsLeft = hitsLeft;
+		mRadius = radius;
+		mVelocityDecay = 1;
+		isActive = true;
 	}
 
+	@Override
+	public void draw(Graphics g) {
+		g.setColor(mColor); 
+		g.fillOval((int)(mX-mRadius+.5),(int)(mY-mRadius+.5), (int)(2*mRadius),(int)(2*mRadius));
+
+	}
 }

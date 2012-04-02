@@ -161,10 +161,10 @@ public class Ship extends MovingSpaceObject implements Drawable {
 	}
 
 	public double getXVelocity() {
-		return this.xVelocity;
+		return this.mXVelocity;
 	}
 
 	public double getYVelocity() {
-		return this.yVelocity;
+		return this.mYVelocity;
 	}
 }
