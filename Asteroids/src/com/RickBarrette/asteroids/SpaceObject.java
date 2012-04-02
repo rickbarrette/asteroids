@@ -29,7 +29,7 @@ import java.awt.Color;
  */
 public class SpaceObject {
 
-	protected Color color;
+	protected Color mColor;
 	protected double mX;
 	protected double mY;
 
@@ -38,7 +38,7 @@ public class SpaceObject {
 	 * @author ricky barrette
 	 */
 	public Color getColor() {
-		return this.color;
+		return this.mColor;
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class SpaceObject {
 	 * @author ricky barrette
 	 */
 	public void setColor(Color c) {
-		this.color = c;
+		this.mColor = c;
 	}
 	
 	/**

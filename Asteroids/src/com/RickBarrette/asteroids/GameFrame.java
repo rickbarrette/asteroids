@@ -40,16 +40,16 @@ public class GameFrame extends JFrame implements KeyListener{
 
 	private static final long serialVersionUID = -2051298505681885632L;
 
-	private JMenuBar bar;
-	private JMenu menu;
-	private JMenuItem newGame;
-	private JMenuItem quit;
-	private Status statusBar;
+	private JMenuBar mMenuBar;
+	private JMenu mMenu;
+	private JMenuItem mMenuNewGame;
+	private JMenuItem mMenuQuit;
+	private Status mStatusBar;
 	private Display mDisplay;
-	private Container container;
-	private FlowLayout layout;
+	private Container mContainer;
+	private FlowLayout mLayout;
 	private menuListener xlistener;
-	private AsteroidGame game;
+	private AsteroidGame mGame;
 
 	/**
 	 * Creates a new GameFrame
@@ -59,48 +59,43 @@ public class GameFrame extends JFrame implements KeyListener{
 	 */
 	public GameFrame(AsteroidGame g) {
 		super("ASTEROIDS");
-		game = g;
+		mGame = g;
 
-		bar = new JMenuBar();
-		setJMenuBar(bar);
+		mMenuBar = new JMenuBar();
+		setJMenuBar(mMenuBar);
 
-		menu = new JMenu("File");
+		mMenu = new JMenu("File");
 
-		newGame = new JMenuItem("New Game");
-		quit = new JMenuItem("Quit");
+		mMenuNewGame = new JMenuItem("New Game");
+		mMenuQuit = new JMenuItem("Quit");
 
-		menu.add(newGame);
-		menu.addSeparator();
-		menu.add(quit);
+		mMenu.add(mMenuNewGame);
+		mMenu.addSeparator();
+		mMenu.add(mMenuQuit);
 
-		bar.add(menu);
+		mMenuBar.add(mMenu);
 
-		layout = new FlowLayout();
-		layout.setAlignment(FlowLayout.LEFT);
+		mLayout = new FlowLayout();
+		mLayout.setAlignment(FlowLayout.LEFT);
 
 
-		container = getContentPane();
-		statusBar = new Status(container, game);
-		mDisplay = new Display(container, game);
+		mContainer = getContentPane();
+		mStatusBar = new Status(mContainer, mGame);
+		mDisplay = new Display(mContainer, mGame);
 
 
 		xlistener = new menuListener();
-		newGame.addActionListener(xlistener);
-		quit.addActionListener(xlistener);
+		mMenuNewGame.addActionListener(xlistener);
+		mMenuQuit.addActionListener(xlistener);
 
 		addKeyListener(this);
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// sets up window's location and sets size****
-//		setLocation(0, 0); // the default location
 		setSize(1000, 800);
 		setVisible(true);
 
-	}
-
-	public void setStatus(String temp) {
-		statusBar.setStatus(temp);
 	}
 
 	public void repaintDisplay() {
@@ -111,7 +106,7 @@ public class GameFrame extends JFrame implements KeyListener{
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getActionCommand().equals("New Game")) {
-				game.newGame();
+				mGame.newGame();
 				mDisplay.repaint();
 
 			}
@@ -128,8 +123,9 @@ public class GameFrame extends JFrame implements KeyListener{
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
-		for (Object item : game.getWorld()) {
-
+		Object item;
+		for (int i = 0; i < mGame.getWorld().size(); i++) {
+			item = mGame.getWorld().get(i);
 			if (item instanceof Ship) {
 				Ship ship = (Ship) item;
 				switch (e.getKeyCode()) {
@@ -147,6 +143,7 @@ public class GameFrame extends JFrame implements KeyListener{
 					 * [Space] Pew Pew Pew!!!
 					 */
 					case KeyEvent.VK_SPACE:
+						mGame.addElement(new Shot(ship.getX(), ship.getY(), ship.getAngle(), ship.getXVelocity(), ship.getYVelocity(), mGame));
 						break;
 
 					/*
@@ -199,7 +196,7 @@ public class GameFrame extends JFrame implements KeyListener{
 	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
-		for (Object item : game.getWorld()) {
+		for (Object item : mGame.getWorld()) {
 			if (item instanceof Ship) {
 				Ship ship = (Ship) item;
 				
@@ -265,5 +262,24 @@ public class GameFrame extends JFrame implements KeyListener{
 	 */
 	public int getDisplayWidth() {
 		return mDisplay.getWidth();
+	}
+
+	/**
+	 * Sets the enabled state of Moving Space Objects
+	 * @param b
+	 * @author ricky barrette
+	 */
+	public void setMovingSpaceObjectsEnabled(boolean b) {
+		for(Object item : mGame.getWorld())
+			if(item instanceof MovingSpaceObject)
+				((MovingSpaceObject) item).setActive(b);
+		
+	}
+
+	/**
+	 * @return the mStatusBar
+	 */
+	public Status getStatusBar() {
+		return mStatusBar;
 	}
 }

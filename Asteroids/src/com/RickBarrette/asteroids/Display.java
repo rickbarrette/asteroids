@@ -59,14 +59,17 @@ public class Display extends JPanel {
 		super.paintComponent(g);
 
 		/*
-		 * Draw the world's objects
+		 * Move & Draw the world's objects
 		 */
-		for (Object item : mGame.getWorld()) {
-			if (item instanceof Ship) {
-				Ship s = (Ship) (item);
-				s.move(getHeight(), getWidth());
-				s.draw(g);
-			}
+		Object item;
+		for (int i = 0; i < mGame.getWorld().size(); i++) {
+			item = mGame.getWorld().get(i);
+			
+			if (item instanceof MovingSpaceObject) 
+				((MovingSpaceObject) item).move(getHeight(), getWidth());
+			
+			if(item instanceof Drawable)
+				((Drawable) item).draw(g);
 		}
 	}
 }

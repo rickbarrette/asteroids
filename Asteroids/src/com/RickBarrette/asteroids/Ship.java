@@ -65,15 +65,28 @@ public class Ship extends MovingSpaceObject implements Drawable {
 		this.mAcceleration = acceleration;
 		this.mVelocityDecay = velocityDecay;
 		this.mRotationalSpeed = rotationalSpeed;
+		this.mColor = Color.CYAN;
 
 		// start off paused
-		this.isActive = true;
+		this.isActive = false;
 
 		// # of frames between shots
 		this.shotDelay = shotDelay;
 
 		// ready to shoot
 		this.shotDelayLeft = 0;
+	}
+
+	/**
+	 * @return true if the ship can shoot
+	 * @author ricky barrette
+	 */
+	public boolean canShoot() {
+		if (shotDelayLeft > 0) // checks to see if the ship is ready to
+			return false;
+		// shoot again yet or if it needs to wait longer
+		else
+			return true;
 	}
 
 	/**
@@ -106,12 +119,28 @@ public class Ship extends MovingSpaceObject implements Drawable {
 		}
 
 		if (isActive)
-			g.setColor(Color.CYAN);
+			g.setColor(mColor);
 		else
 			// draw the ship dark gray if the game is paused
 			g.setColor(Color.darkGray);
 		
 		g.fillPolygon(mXpoints, mYpoints, 4); // 4 is the number of points
+	}
+	
+	/**
+	 * @return the ship's current angle
+	 * @author ricky barrette
+	 */
+	public double getAngle() {
+		return mAngle;
+	}
+
+	/**
+	 * @return radius of circle that approximates the ship
+	 * @author ricky barrette
+	 */
+	public double getRadius() {
+		return radius;
 	}
 
 	/**
@@ -130,24 +159,12 @@ public class Ship extends MovingSpaceObject implements Drawable {
 		
 		super.move(scrnWidth, scrnHeight);
 	}
-	
-	/**
-	 * @return radius of circle that approximates the ship
-	 * @author ricky barrette
-	 */
-	public double getRadius() {
-		return radius;
+
+	public double getXVelocity() {
+		return this.xVelocity;
 	}
 
-	/**
-	 * @return true if the ship can shoot
-	 * @author ricky barrette
-	 */
-	public boolean canShoot() {
-		if (shotDelayLeft > 0) // checks to see if the ship is ready to
-			return false;
-		// shoot again yet or if it needs to wait longer
-		else
-			return true;
+	public double getYVelocity() {
+		return this.yVelocity;
 	}
 }

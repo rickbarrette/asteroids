@@ -22,7 +22,6 @@ package com.RickBarrette.asteroids;
 
 import java.util.Vector;
 
-
 /**
  * This class maintain's the game logic. It is the main driver
  * @author ricky barrette
@@ -48,8 +47,10 @@ public class AsteroidGame extends Thread {
 	 * @param add
 	 * @author ricky barrette
 	 */
-	public void addElement(Object add) {
-		mWorld.addElement(add);
+	public void addElement(Object o) {
+		if(o instanceof Shot)
+			mGameFrame.getStatusBar().setShotCount(mGameFrame.getStatusBar().getShotCount()+1);
+		mWorld.addElement(o);
 	}
 
 	/**
@@ -58,7 +59,7 @@ public class AsteroidGame extends Thread {
 	 */
 	public void createGame() {
 		mWorld = new Vector<Object>();
-		mWorld.add(new Ship(500,500,0,.35,.98,.4,1));
+		mWorld.add(new Ship(100,100,0,.35,.98,.4,1));
 	}
 
 	public Vector<Object> getWorld() {
@@ -96,6 +97,8 @@ public class AsteroidGame extends Thread {
 	 * @author ricky barrette
 	 */
 	public void removeElement(Object o) {
+		if(o instanceof Shot)
+			mGameFrame.getStatusBar().setShotCount(mGameFrame.getStatusBar().getShotCount()-1);
 		mWorld.removeElement(o);
 	}
 
@@ -107,23 +110,10 @@ public class AsteroidGame extends Thread {
 	@Override
 	public void run() {
 		while(isStarted) {
-//			if (!(mWorld.isEmpty())) {
-//				
-//				/*
-//				 * handle the ship
-//				 */
-//				for (Object item : mWorld) {
-//					if(item instanceof Ship){
-//						Ship ship = (Ship) item;
-//						
-//						
-//					}
-//	
-//	
-//				}
-//			}
-			mGameFrame.repaintDisplay();
 
+			mGameFrame.repaintDisplay();
+			mGameFrame.getStatusBar().updateStatus();
+			
 			/*
 			 * sleep till next time
 			 */
@@ -149,6 +139,9 @@ public class AsteroidGame extends Thread {
 	 */
 	@Override
 	public synchronized void start(){
+		
+		mGameFrame.setMovingSpaceObjectsEnabled(true);
+		
 		isStarted = true;
 		super.start();
 	}
