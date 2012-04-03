@@ -233,24 +233,24 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 					break;
 					
 					
-					/*
-					 * [H] Hyoer jump
-					 */
-					case KeyEvent.VK_H:
-						if(isKeyPressed){
-							Random myRNG = new Random();
-							ship.setLocation(myRNG.nextInt(mDisplay.getHeight()), myRNG.nextInt(mDisplay.getWidth()));
-						}
-						break;
-						
-					/*
-					 * [Space] Pew Pew Pew!!!
-					 */
-					case KeyEvent.VK_SPACE:
-						if(isKeyPressed)
-							mGame.addElement(new Shot(ship.getX(), ship.getY(), ship.getAngle(), ship.getXVelocity(), ship.getYVelocity(), mGame));
-						break;
-				}
+				/*
+				 * [H] Hyoer jump
+				 */
+				case KeyEvent.VK_H:
+					if(isKeyPressed){
+						Random myRNG = new Random();
+						ship.setLocation(myRNG.nextInt(mDisplay.getHeight()), myRNG.nextInt(mDisplay.getWidth()));
+					}
+					break;
+					
+				/*
+				 * [Space] Pew Pew Pew!!!
+				 */
+				case KeyEvent.VK_SPACE:
+					if(isKeyPressed)
+						mGame.addElement(new Shot(ship.getX(), ship.getY(), ship.getAngle(), ship.getXVelocity(), ship.getYVelocity(), mGame));
+					break;
+			}
 	}
 
 	@Override

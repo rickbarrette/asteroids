@@ -20,6 +20,7 @@
  */
 package com.RickBarrette.asteroids;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -29,7 +30,7 @@ import java.util.Vector;
 public class AsteroidGame extends Thread {
 
 	private static final int DELAY_IN_MSEC = 50;
-	private Vector<Object> mWorld;
+	private ArrayList<Object> mWorld;
 	private GameFrame mGameFrame;
 	public boolean isStarted = false;
 
@@ -50,12 +51,12 @@ public class AsteroidGame extends Thread {
 	 */
 	public void addElement(Object o) {
 		if(o instanceof Shot)
-			mGameFrame.getStatusBar().setShotCount(mGameFrame.getStatusBar().getShotCount()+1);
+			mGameFrame.getStatusBar().incrementShotCount();
 		
 		if(o instanceof Asteroid)
-			mGameFrame.getStatusBar().setAsteroidCount(mGameFrame.getStatusBar().getAsteroidCount()+1);
+			mGameFrame.getStatusBar().incrementAsteroidCount();
 		
-		mWorld.addElement(o);
+		mWorld.add(o);
 	}
 
 	/**
@@ -63,13 +64,21 @@ public class AsteroidGame extends Thread {
 	 * @author ricky barrette
 	 */
 	public void createGame() {
-		mWorld = new Vector<Object>();
+		mWorld = new ArrayList<Object>();
 		mWorld.add(new Ship(100,100,0,.35,.98,.4,1));
 		addElement(new Asteroid(500, 500, 1, 10, 50, 3, 3, this));
 		mGameFrame.getStatusBar().setShipCount(3);
+		mGameFrame.getStatusBar().setScore(0);
+		mGameFrame.getStatusBar().setAsteroidCount(0);
+		mGameFrame.getStatusBar().setTime(0);
+		mGameFrame.getStatusBar().setShotCount(0);
 	}
 
-	public Vector<Object> getWorld() {
+	/**
+	 * @return the world
+	 * @author ricky barrette
+	 */
+	public ArrayList<Object> getWorld() {
 		return mWorld;
 	}
 	
@@ -89,6 +98,7 @@ public class AsteroidGame extends Thread {
 		mWorld.clear();
 		mGameFrame.setDisplayText(null);
 		createGame();
+		startGame();
 	}
 
 	/**
@@ -108,11 +118,13 @@ public class AsteroidGame extends Thread {
 	 */
 	public void removeElement(Object o) {
 		if(o instanceof Shot)
-			mGameFrame.getStatusBar().setShotCount(mGameFrame.getStatusBar().getShotCount()-1);
+			mGameFrame.getStatusBar().decrementShotCount();
 		
-		if(o instanceof Asteroid)
-			mGameFrame.getStatusBar().setAsteroidCount(mGameFrame.getStatusBar().getAsteroidCount()-1);
-		mWorld.removeElement(o);
+		if(o instanceof Asteroid) {
+			mGameFrame.getStatusBar().decrementAsteroidCount();
+			mGameFrame.getStatusBar().incrementScore(2);
+		}
+		mWorld.remove(o);
 	}
 
 	/**
@@ -177,7 +189,7 @@ public class AsteroidGame extends Thread {
 				mWorld.remove(i);
 		}
 		
-		mGameFrame.getStatusBar().setShipCount(mGameFrame.getStatusBar().getShipCount() -1);
+		mGameFrame.getStatusBar().decrementShipCount();
 		
 		if(mGameFrame.getStatusBar().getShipCount() > 0){
 			pauseGame();

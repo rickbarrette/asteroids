@@ -57,72 +57,156 @@ public class Status extends JPanel {
 	}
 
 	/**
-	 * @return the mAsteroidCount
+	 * decreases total asteroid count by 1 
+	 * @author ricky barrette
 	 */
-	public int getAsteroidCount() {
-		return mAsteroidCount;
+	public synchronized void decrementAsteroidCount() {
+		this.mAsteroidCount -= 1;
 	}
 
 	/**
+	 * reduces total score by x amount
+	 * @param score
+	 * @author ricky barrette
+	 */
+	public synchronized void decrementScore(int score) {
+		this.mScore -= mScore;
+	}
+
+	/**
+	 * reduces total ships by 1 
+	 * @author ricky barrette
+	 */
+	public synchronized void decrementShipCount() {
+		this.mShipCount -= 1;
+	}
+
+	/**
+	 * reduces total shots by 1 
+	 * @author ricky barrette
+	 */
+	public synchronized void decrementShotCount() {
+		this.mShotCount -= 1;
+	}
+
+	/**
+	 * Reduces time be x amount
+	 * @param mTime
+	 * @author ricky barrette
+	 */
+	public synchronized void decrementTime(long mTime) {
+		this.mTime -= mTime;
+	}
+
+	/**
+	 * @return the mAsteroidCount
+	 */
+	public synchronized int getAsteroidCount() {
+		return mAsteroidCount;
+	}
+	
+	/**
 	 * @return the mScore
 	 */
-	public long getScore() {
+	public synchronized long getScore() {
 		return mScore;
 	}
 
 	/**
 	 * @return the mShipCount
 	 */
-	public int getShipCount() {
+	public synchronized int getShipCount() {
 		return mShipCount;
 	}
 
 	/**
 	 * @return the mShotCount
 	 */
-	public int getShotCount() {
+	public synchronized int getShotCount() {
 		return mShotCount;
 	}
-
+	
 	/**
 	 * @return the mTime
 	 */
-	public long getTime() {
+	public synchronized long getTime() {
 		return mTime;
 	}
+	
+	/**
+	 * increases total asteroid count by 1 
+	 * @author ricky barrette
+	 */
+	public synchronized void incrementAsteroidCount() {
+		this.mAsteroidCount += 1;
+	}
 
+	/**
+	 * increases total score by x amount
+	 * @param score
+	 * @author ricky barrette
+	 */
+	public synchronized void incrementScore(int score) {
+		this.mScore += score;
+	}
+
+	/**
+	 * increases total ships by one 
+	 * @author ricky barrette
+	 */
+	public synchronized void incrementShipCount() {
+		this.mShipCount += 1;
+	}
+	
+	/**
+	 * increases total shots by one 
+	 * @author ricky barrette
+	 */
+	public synchronized void incrementShotCount() {
+		this.mShotCount += 1;
+	}
+
+	/**
+	 * increates time by x amount
+	 * @param mTime
+	 * @author ricky barrette
+	 */
+	public synchronized void incrementTime(long mTime) {
+		this.mTime += mTime;
+	}
+	
 	/**
 	 * @param mAsteroidCount the mAsteroidCount to set
 	 */
-	public void setAsteroidCount(int mAsteroidCount) {
+	public synchronized void setAsteroidCount(int mAsteroidCount) {
 		this.mAsteroidCount = mAsteroidCount;
 	}
-
+	
 	/**
 	 * @param mScore the mScore to set
 	 */
-	public void setScore(long mScore) {
+	public synchronized void setScore(long mScore) {
 		this.mScore = mScore;
 	}
 
 	/**
 	 * @param mShipCount the mShipCount to set
 	 */
-	public void setShipCount(int mShipCount) {
+	public synchronized void setShipCount(int mShipCount) {
 		this.mShipCount = mShipCount;
 	}
-
+	
 	/**
 	 * @param mShotCount the mShotCount to set
 	 */
-	public void setShotCount(int mShotCount) {
+	public synchronized void setShotCount(int mShotCount) {
 		this.mShotCount = mShotCount;
 	}
-
+	
 	/**
 	 * @param mTime the mTime to set
 	 */
-	public void setTime(long mTime) {
+	public synchronized void setTime(long mTime) {
 		this.mTime = mTime;
 	}
 
