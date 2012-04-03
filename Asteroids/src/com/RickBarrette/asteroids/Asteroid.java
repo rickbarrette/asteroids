@@ -25,7 +25,6 @@ import java.awt.Graphics;
 
 /**
  * This class will be used to make astroids, to destroy the ship!
- * 
  * @author ricky barrette
  */
 public class Asteroid extends MovingSpaceObject implements Collider, Drawable {
@@ -33,13 +32,12 @@ public class Asteroid extends MovingSpaceObject implements Collider, Drawable {
 	private final int mNumberSplit;
 	private final int mHitsLeft;
 	private final int mRadius;
+	private final double mMinVelocity;
+	private final double mMaxVelocity;
 	private AsteroidGame mGame;
-	private double mMinVelocity;
-	private double mMaxVelocity;
 
 	/**
 	 * Creates a new Asteroid
-	 * 
 	 * @param x
 	 * @param y
 	 * @param xVelocity
@@ -63,8 +61,30 @@ public class Asteroid extends MovingSpaceObject implements Collider, Drawable {
 		mNumberSplit = numberSplit;
 		mHitsLeft = hitsLeft;
 		mRadius = radius;
-		mVelocityDecay = 1;
-		isActive = true;
+	}
+	
+	/**
+	 * Called when a collision check needs to be made.
+	 * Only checks for ship and shots
+	 * (non-Javadoc)
+	 * @see com.RickBarrette.asteroids.Collider#checkForCollision(java.lang.Object)
+	 */
+	@Override
+	public boolean checkForCollision(Object o) {
+		
+		if(o instanceof Asteroid){
+			//TODO inverse directions of both asteroids 
+		}
+		
+		if(o instanceof Ship) {
+			return shipCollision((Ship) o);
+		}
+
+		if(o instanceof Shot) {
+			return shotCollision((Shot) o);
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -75,15 +95,15 @@ public class Asteroid extends MovingSpaceObject implements Collider, Drawable {
 	 * @author ricky barrette
 	 */
 	public Asteroid createSplitAsteroid(double minVelocity, double maxVelocity){
-			//when this asteroid gets hit by a shot, this method is called
-			//numSplit times by AsteroidsGame to create numSplit smaller
-			//asteroids. Dividing the radius by sqrt(numSplit) makes the
-			//sum of the areas taken up by the smaller asteroids equal to
-			//the area of this asteroid. Each smaller asteroid has one
-			//less hit left before being completely destroyed.
-			return new Asteroid(mX,mY, minVelocity, maxVelocity, (int) (mRadius/Math.sqrt(mNumberSplit)), mNumberSplit, mHitsLeft-1, mGame);
+		/*
+		 * Dividing the radius by sqrt(numSplit) makes the
+		 * sum of the areas taken up by the smaller asteroids equal to
+		 * the area of this asteroid. Each smaller asteroid has one
+		 * less hit left before being completely destroyed.
+		 */
+		return new Asteroid(mX,mY, minVelocity, maxVelocity, (int) (mRadius/Math.sqrt(mNumberSplit)), mNumberSplit, mHitsLeft-1, mGame);
 	}
-	
+
 	/**
 	 * Called when the Asteroid needs to be drawn
 	 * (non-Javadoc)
@@ -164,25 +184,5 @@ public class Asteroid extends MovingSpaceObject implements Collider, Drawable {
 			mY += scrnWidth + 2 * mRadius;
 		else if (mY > scrnWidth + mRadius)
 			mY -= scrnWidth + 2 * mRadius;
-	}
-
-	/**
-	 * Called when a collision check needs to be made.
-	 * Only checks for ship and shots
-	 * (non-Javadoc)
-	 * @see com.RickBarrette.asteroids.Collider#checkForCollision(java.lang.Object)
-	 */
-	@Override
-	public boolean checkForCollision(Object o) {
-		
-		if(o instanceof Ship) {
-			return shipCollision((Ship) o);
-		}
-
-		if(o instanceof Shot) {
-			return shotCollision((Shot) o);
-		}
-		
-		return false;
 	}
 }

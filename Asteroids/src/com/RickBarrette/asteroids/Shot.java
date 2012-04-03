@@ -46,11 +46,8 @@ public class Shot extends MovingSpaceObject implements Drawable {
 		mAcceleration = SPEED;
 		mColor = Color.WHITE;
 		mGame = game;
-		isActive = true;
 		mXVelocity = SPEED*Math.cos(angle)+shipXVel;
 		mYVelocity = SPEED*Math.sin(angle)+shipYVel;
-		mVelocityDecay = 1;
-
 	}
 
 	@Override

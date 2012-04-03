@@ -95,9 +95,10 @@ public class AsteroidGame extends Thread {
 	 * Pauses the game 
 	 * @author ricky barrette
 	 */
-	public synchronized void pause(){
+	public synchronized void pauseGame(){
 		isStarted = false;
 		mGameFrame.setDisplayText("Paused");
+		setMovingSpaceObjectsEnabled(false);
 	}
 
 	/**
@@ -124,7 +125,10 @@ public class AsteroidGame extends Thread {
 		while (true){
 			if(isStarted) {
 	
-				mGameFrame.repaintDisplay();
+				/*
+				 * update the display and stats
+				 */
+				mGameFrame.repaintDispaly();
 				mGameFrame.getStatusBar().updateStatus();
 				
 				/*
@@ -176,9 +180,9 @@ public class AsteroidGame extends Thread {
 		mGameFrame.getStatusBar().setShipCount(mGameFrame.getStatusBar().getShipCount() -1);
 		
 		if(mGameFrame.getStatusBar().getShipCount() > 0){
-			pause();
+			pauseGame();
 			mWorld.add(new Ship(100,100,0,.35,.98,.4,1));
-			mGameFrame.setDisplayText("You died, press start when ready.");
+			mGameFrame.setDisplayText("You died, You can hyper jump to a safe place now...\nPress start when ready.");
 		} else {
 			mGameFrame.setDisplayText("Game Over");
 		}
@@ -199,8 +203,18 @@ public class AsteroidGame extends Thread {
 	 */
 	public synchronized void startGame(){
 		mGameFrame.setDisplayText(null);
-		mGameFrame.setMovingSpaceObjectsEnabled(true);
-		isStarted = true;
-		
+		setMovingSpaceObjectsEnabled(true);
+		isStarted = true;	
+	}
+	
+	/**
+	 * Sets the enabled state of Moving Space Objects
+	 * @param b
+	 * @author ricky barrette
+	 */
+	public void setMovingSpaceObjectsEnabled(boolean b) {
+		for(Object item : mWorld)
+			if(item instanceof MovingSpaceObject)
+				((MovingSpaceObject) item).setActive(b);	
 	}
 }

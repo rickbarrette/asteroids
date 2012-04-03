@@ -61,18 +61,22 @@ public class Display extends JPanel {
 		
 		if(mText != null){
 			g.setColor(Color.ORANGE);
-			g.drawString(mText, this.getHeight() /2 , this.getWidth() / 2);
+			g.drawString(mText, this.getWidth() / 2, this.getHeight() /2 );
 		}
 
 		/*
 		 * Move & Draw the world's objects
 		 */
 		Object item;
+		MovingSpaceObject mso;
 		for (int i = 0; i < mGame.getWorld().size(); i++) {
 			item = mGame.getWorld().get(i);
 			
-			if (item instanceof MovingSpaceObject) 
-				((MovingSpaceObject) item).move(getHeight(), getWidth());
+			if (item instanceof MovingSpaceObject){
+				mso = (MovingSpaceObject) item;
+				if(mso.isActive)
+					mso.move(getHeight(), getWidth());
+			}
 			
 			if(item instanceof Drawable)
 				((Drawable) item).draw(g);

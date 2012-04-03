@@ -33,31 +33,20 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
- * This class will maintian the game's frame, and handle key events from the user
+ * This class will maintian the game's frame. 
+ * It will be used to display all the game's information to the user and handle key events from the user
  * @author ricky barrette
  */
-public class GameFrame extends JFrame implements KeyListener{
+public class GameFrame extends JFrame implements KeyListener, ActionListener{
 
 	private static final long serialVersionUID = -2051298505681885632L;
 
-	private JMenuBar mMenuBar;
-	private JMenu mMenu;
-	private JMenuItem mMenuNewGame;
-	private JMenuItem mMenuQuit;
 	private Status mStatusBar;
 	private Display mDisplay;
-	private Container mContainer;
-	private FlowLayout mLayout;
-	private menuListener xlistener;
 	private AsteroidGame mGame;
-
-	private JMenuItem mMenuStartGame;
-
-	private JMenuItem mMenuPauseGame;
 
 	/**
 	 * Creates a new GameFrame
-	 * 
 	 * @param g
 	 * @author ricky barrette
 	 */
@@ -65,39 +54,40 @@ public class GameFrame extends JFrame implements KeyListener{
 		super("ASTEROIDS");
 		mGame = g;
 
-		mMenuBar = new JMenuBar();
-		setJMenuBar(mMenuBar);
+		/*
+		 * set up the game's menus
+		 */
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		/*
+		 * file menu
+		 */
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem menuNewGame = new JMenuItem("New Game");
+		JMenuItem menuStartGame = new JMenuItem("Start");
+		JMenuItem menuPauseGame = new JMenuItem("Pause");
+		JMenuItem menuQuit = new JMenuItem("Quit");
 
-		mMenu = new JMenu("File");
+		fileMenu.add(menuNewGame);
+		fileMenu.addSeparator();
+		fileMenu.add(menuStartGame);
+		fileMenu.add(menuPauseGame);
+		fileMenu.addSeparator();
+		fileMenu.add(menuQuit);
+		menuNewGame.addActionListener(this);
+		menuQuit.addActionListener(this);
+		menuStartGame.addActionListener(this);
+		menuPauseGame.addActionListener(this);
 
-		mMenuNewGame = new JMenuItem("New Game");
-		mMenuStartGame = new JMenuItem("Start");
-		mMenuPauseGame = new JMenuItem("Pause");
-		mMenuQuit = new JMenuItem("Quit");
+		menuBar.add(fileMenu);
+		
+		FlowLayout layout = new FlowLayout();
+		layout.setAlignment(FlowLayout.LEFT);
 
-		mMenu.add(mMenuNewGame);
-		mMenu.addSeparator();
-		mMenu.add(mMenuStartGame);
-		mMenu.add(mMenuPauseGame);
-		mMenu.addSeparator();
-		mMenu.add(mMenuQuit);
-
-		mMenuBar.add(mMenu);
-
-		mLayout = new FlowLayout();
-		mLayout.setAlignment(FlowLayout.LEFT);
-
-
-		mContainer = getContentPane();
-		mStatusBar = new Status(mContainer, mGame);
-		mDisplay = new Display(mContainer, mGame);
-
-
-		xlistener = new menuListener();
-		mMenuNewGame.addActionListener(xlistener);
-		mMenuQuit.addActionListener(xlistener);
-		mMenuStartGame.addActionListener(xlistener);
-		mMenuPauseGame.addActionListener(xlistener);
+		Container container = getContentPane();
+		mStatusBar = new Status(container, mGame);
+		mDisplay = new Display(container, mGame);
 		
 		addKeyListener(this);
 
@@ -109,38 +99,50 @@ public class GameFrame extends JFrame implements KeyListener{
 
 	}
 
-	public void repaintDisplay() {
-		mDisplay.repaint();
+	/**
+	 * Called when a menu item is selected from the benu bar
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("New Game")) {
+			mGame.newGame();
+			mDisplay.repaint();
+		}
+		
+		if (e.getActionCommand().equals("Start")) {
+			mGame.startGame();
+		}
+		
+		if (e.getActionCommand().equals("Pause")) {
+			mGame.pauseGame();
+		}
+		
+		if (e.getActionCommand().equals("Quit"))
+			System.exit(0);
 	}
 
 	/**
-	 * (non-Javadoc)
-	 * @see java.awt.Component#repaint()
+	 * @return the height of the game display panel
+	 * @author ricky barrette
 	 */
-	@Override
-	public void repaint() {
-		mDisplay.repaint();
-		super.repaint();
+	public int getDispalyHeight() {
+		return mDisplay.getHeight();
 	}
 
-	private class menuListener implements ActionListener {
+	/**
+	 * @return the width of the game dispaly panel
+	 * @author ricky barrette
+	 */
+	public int getDisplayWidth() {
+		return mDisplay.getWidth();
+	}
 
-		public void actionPerformed(ActionEvent e) {
-			if (e.getActionCommand().equals("New Game")) {
-				mGame.newGame();
-				mDisplay.repaint();
-
-			}
-			if (e.getActionCommand().equals("Start")) {
-				mGame.startGame();
-			}
-			if (e.getActionCommand().equals("Pause")) {
-				mGame.pause();
-			}
-			if (e.getActionCommand().equals("Quit"))
-				System.exit(0);
-		}
-
+	/**
+	 * @return the mStatusBar
+	 */
+	public Status getStatusBar() {
+		return mStatusBar;
 	}
 
 	/**
@@ -272,43 +274,31 @@ public class GameFrame extends JFrame implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	/**
-	 * @return the height of the game display panel
+	 * (non-Javadoc)
+	 * @see java.awt.Component#repaint()
+	 */
+	@Override
+	public void repaint() {
+		mDisplay.repaint();
+		super.repaint();
+	}
+
+	/**
+	 * updates and repaints all world objects 
 	 * @author ricky barrette
 	 */
-	public int getDispalyHeight() {
-		return mDisplay.getHeight();
+	public void repaintDispaly() {
+		mDisplay.repaint();
 	}
 
 	/**
-	 * @return the width of the game dispaly panel
+	 * Sets test to be displayed in the center of the display
+	 * @param string to be displayed
 	 * @author ricky barrette
 	 */
-	public int getDisplayWidth() {
-		return mDisplay.getWidth();
-	}
-
-	/**
-	 * Sets the enabled state of Moving Space Objects
-	 * @param b
-	 * @author ricky barrette
-	 */
-	public void setMovingSpaceObjectsEnabled(boolean b) {
-		for(Object item : mGame.getWorld())
-			if(item instanceof MovingSpaceObject)
-				((MovingSpaceObject) item).setActive(b);	
-	}
-
-	/**
-	 * @return the mStatusBar
-	 */
-	public Status getStatusBar() {
-		return mStatusBar;
-	}
-
 	public void setDisplayText(String string) {
 		mDisplay.setDisplayText(string);
 		this.repaint();

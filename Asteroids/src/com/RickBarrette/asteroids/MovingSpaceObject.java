@@ -27,12 +27,12 @@ package com.RickBarrette.asteroids;
 public class MovingSpaceObject extends SpaceObject implements Moveable{
 	
 	protected double mAngle;
-	protected double mVelocityDecay;
+	protected double mVelocityDecay = 1;
 	protected double mRotationalSpeed;
 	protected double mXVelocity = 0;
 	protected double mYVelocity = 0;
 	protected double mAcceleration;	
-	protected boolean isTurningLeft = false, isTurningRight = false, isAccelerating = false, isActive;
+	protected boolean isTurningLeft = false, isTurningRight = false, isAccelerating = false, isActive = true;
 
 	/**
 	 * @return true if the space object is accelerating
