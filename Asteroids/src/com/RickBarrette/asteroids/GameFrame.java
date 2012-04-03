@@ -152,70 +152,21 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
-		Object item;
-		for (int i = 0; i < mGame.getWorld().size(); i++) {
-			item = mGame.getWorld().get(i);
-			if (item instanceof Ship) {
-				Ship ship = (Ship) item;
-				switch (e.getKeyCode()) {
-
-					/*
-					 * [Left arrow] or [A]
-					 * Rotate the ship left
-					 */
-					case KeyEvent.VK_A:
-					case KeyEvent.VK_LEFT:
-						ship.setTurningLeft(true);
-						break;
-
-					/*
-					 * [Space] Pew Pew Pew!!!
-					 */
-					case KeyEvent.VK_SPACE:
-						mGame.addElement(new Shot(ship.getX(), ship.getY(), ship.getAngle(), ship.getXVelocity(), ship.getYVelocity(), mGame));
-						break;
-
-					/*
-					 * [Right arrow] or [D] 
-					 * Rotate the ship right
-					 */
-					case KeyEvent.VK_D:
-					case KeyEvent.VK_RIGHT:
-						ship.setTurningRight(true);
-						break;
-
-					/*
-					 * [Up arrow] or [W]
-					 * Increase the ship's speed
-					 */
-					case KeyEvent.VK_W:
-					case KeyEvent.VK_UP:
-						ship.setAccelerating(true);
-						break;
-
-					/*
-					 * [Down arrow] or [S] 
-					 * Slow the ship
-					 */
-					case KeyEvent.VK_S:
-					case KeyEvent.VK_DOWN:
-						ship.setAccelerating(false);
-						break;
-
-					/*
-					 * [H] Hyoer jump
-					 */
-					case KeyEvent.VK_H:
-						Random myRNG = new Random();
-						ship.setLocation(myRNG.nextInt(mDisplay.getHeight()), myRNG.nextInt(mDisplay.getWidth()));
-						break;
-					}
-			}
-
-			mDisplay.repaint();
-
+		
+		switch(e.getKeyCode()){
+		/*
+		 * [Enter]  
+		 * Start of pause the game
+		 */
+		case KeyEvent.VK_ENTER:
+			if(mGame.isStarted)
+				mGame.pauseGame();
+			else
+				mGame.startGame();
+			break;
 		}
 		
+		driveShip(e, true);	
 	}
 
 	/**
@@ -225,55 +176,85 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
+		driveShip(e, false);
+	}
+
+	/**
+	 * Drives the user's ship
+	 * @param e
+	 * @param isKeyPressed
+	 * @author ricky barrette
+	 */
+	private void driveShip(KeyEvent e, boolean isKeyPressed) {
+		Ship ship = null;
+		//get the user's ship
 		for (Object item : mGame.getWorld()) {
 			if (item instanceof Ship) {
-				Ship ship = (Ship) item;
-				
-				switch (e.getKeyCode()) {
-
-					/*
-					 * [Left arrow] or [A] 
-					 * Rotate the ship left
-					 */
-					case KeyEvent.VK_A:
-					case KeyEvent.VK_LEFT:
-						ship.setTurningLeft(false);
-						break;
-	
-					/*
-					 * [Right arrow] or [d] Rotate the ship right
-					 */
-					case KeyEvent.VK_D:
-					case KeyEvent.VK_RIGHT:
-						ship.setTurningRight(false);
-						break;
-	
-					/*
-					 * [Up arrow] or [W] 
-					 * Increase the ship's speed
-					 */
-					case KeyEvent.VK_W:
-					case KeyEvent.VK_UP:
-						ship.setAccelerating(false);
-						break;
-	
-					/*
-					 * [Down arrow] or [S] 
-					 * Slow the ship
-					 */
-					case KeyEvent.VK_S:
-					case KeyEvent.VK_DOWN:
-						ship.setAccelerating(false);
-						break;
-
-				}
+				ship = (Ship) item;
 			}
 		}
+		
+		if(ship != null)
+			switch(e.getKeyCode()){
+	
+				/*
+				 * [Left arrow] or [A] 
+				 * Rotate the ship left
+				 */
+				case KeyEvent.VK_A:
+				case KeyEvent.VK_LEFT:
+					ship.setTurningLeft(isKeyPressed);
+					break;
+	
+				/*
+				 * [Right arrow] or [d] Rotate the ship right
+				 */
+				case KeyEvent.VK_D:
+				case KeyEvent.VK_RIGHT:
+					ship.setTurningRight(isKeyPressed);
+					break;
+	
+				/*
+				 * [Up arrow] or [W] 
+				 * Increase the ship's speed
+				 */
+				case KeyEvent.VK_W:
+				case KeyEvent.VK_UP:
+					ship.setAccelerating(isKeyPressed);
+					break;
+	
+				/*
+				 * [Down arrow] or [S] 
+				 * Slow the ship
+				 */
+				case KeyEvent.VK_S:
+				case KeyEvent.VK_DOWN:
+					ship.setAccelerating(isKeyPressed);
+					break;
+					
+					
+					/*
+					 * [H] Hyoer jump
+					 */
+					case KeyEvent.VK_H:
+						if(isKeyPressed){
+							Random myRNG = new Random();
+							ship.setLocation(myRNG.nextInt(mDisplay.getHeight()), myRNG.nextInt(mDisplay.getWidth()));
+						}
+						break;
+						
+					/*
+					 * [Space] Pew Pew Pew!!!
+					 */
+					case KeyEvent.VK_SPACE:
+						if(isKeyPressed)
+							mGame.addElement(new Shot(ship.getX(), ship.getY(), ship.getAngle(), ship.getXVelocity(), ship.getYVelocity(), mGame));
+						break;
+				}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 	}
 
 	/**

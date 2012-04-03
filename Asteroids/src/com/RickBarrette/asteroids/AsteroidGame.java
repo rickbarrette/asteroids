@@ -31,7 +31,7 @@ public class AsteroidGame extends Thread {
 	private static final int DELAY_IN_MSEC = 50;
 	private Vector<Object> mWorld;
 	private GameFrame mGameFrame;
-	public static boolean isStarted = false;
+	public boolean isStarted = false;
 
 	/**
 	 * Creates an new Asteroids game 
