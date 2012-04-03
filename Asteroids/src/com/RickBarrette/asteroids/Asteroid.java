@@ -155,6 +155,12 @@ public class Asteroid extends MovingSpaceObject implements Collider, Drawable {
 	 */
 	public boolean shotCollision(Shot shot) {
 		if( Math.pow(mRadius, 2) > Math.pow(shot.getX() - mX, 2) + Math.pow(shot.getY() - mY, 2)){
+			/**
+			 * remove the asteroid and the shot
+			 */
+			mGame.removeElement(this);
+			mGame.removeElement(shot);
+
 			/*
 			 * if there is a collsion, and there are hits left,
 			 * create new astroids, and remove self
@@ -163,7 +169,6 @@ public class Asteroid extends MovingSpaceObject implements Collider, Drawable {
 				for(int i = 0; i < mNumberSplit; i++)
 					mGame.addElement(createSplitAsteroid(mMinVelocity, mMaxVelocity));
 			
-			mGame.removeElement(this);
 			return true;
 		}
 		return false;

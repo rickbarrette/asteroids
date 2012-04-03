@@ -69,7 +69,7 @@ public class AsteroidGame extends Thread {
 		addElement(new Asteroid(500, 500, 1, 10, 50, 3, 3, this));
 		mGameFrame.getStatusBar().setShipCount(3);
 		mGameFrame.getStatusBar().setScore(0);
-		mGameFrame.getStatusBar().setAsteroidCount(0);
+		mGameFrame.getStatusBar().setAsteroidCount(1);
 		mGameFrame.getStatusBar().setTime(0);
 		mGameFrame.getStatusBar().setShotCount(0);
 	}
