@@ -171,6 +171,7 @@ public class AsteroidGame extends Thread {
 	 */
 	@Override
 	public void run() {
+		boolean hasOneUped = false;
 		while (true){
 			if(isStarted) {
 				boolean isThereAsteroids = false;
@@ -207,6 +208,17 @@ public class AsteroidGame extends Thread {
 					mGameFrame.getStatusBar().incrementLevel();
 					initLevel();
 				}
+				
+				/*
+				 * 1up every 200 points
+				 */
+				if(mGameFrame.getStatusBar().getScore() > 0 && mGameFrame.getStatusBar().getScore() % 200 == 0)
+					if(!hasOneUped){
+						mGameFrame.getStatusBar().incrementShipCount();
+						hasOneUped = true;
+					}
+				else
+					hasOneUped = false;
 			}
 			/*
 			 * sleep till next time
