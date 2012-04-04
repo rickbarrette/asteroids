@@ -123,63 +123,6 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	}
 
 	/**
-	 * @return the height of the game display panel
-	 * @author ricky barrette
-	 */
-	public int getDispalyHeight() {
-		return mDisplay.getHeight();
-	}
-
-	/**
-	 * @return the width of the game dispaly panel
-	 * @author ricky barrette
-	 */
-	public int getDisplayWidth() {
-		return mDisplay.getWidth();
-	}
-
-	/**
-	 * @return the mStatusBar
-	 */
-	public Status getStatusBar() {
-		return mStatusBar;
-	}
-
-	/**
-	 * Called when a key is pressed
-	 * (non-Javadoc)
-	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
-	 */
-	@Override
-	public void keyPressed(KeyEvent e) {
-		
-		switch(e.getKeyCode()){
-		/*
-		 * [Enter]  
-		 * Start of pause the game
-		 */
-		case KeyEvent.VK_ENTER:
-			if(mGame.isStarted)
-				mGame.pauseGame();
-			else
-				mGame.startGame();
-			break;
-		}
-		
-		driveShip(e, true);	
-	}
-
-	/**
-	 * Called when a key is released
-	 * (non-Javadoc)
-	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
-	 */
-	@Override
-	public void keyReleased(KeyEvent e) {
-		driveShip(e, false);
-	}
-
-	/**
 	 * Drives the user's ship
 	 * @param e
 	 * @param isKeyPressed
@@ -251,6 +194,63 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 						mGame.addElement(new Shot(ship.getX(), ship.getY(), ship.getAngle(), ship.getXVelocity(), ship.getYVelocity(), mGame));
 					break;
 			}
+	}
+
+	/**
+	 * @return the height of the game display panel
+	 * @author ricky barrette
+	 */
+	public int getDispalyHeight() {
+		return mDisplay.getHeight();
+	}
+
+	/**
+	 * @return the width of the game dispaly panel
+	 * @author ricky barrette
+	 */
+	public int getDisplayWidth() {
+		return mDisplay.getWidth();
+	}
+
+	/**
+	 * @return the mStatusBar
+	 */
+	public Status getStatusBar() {
+		return mStatusBar;
+	}
+
+	/**
+	 * Called when a key is pressed
+	 * (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+		switch(e.getKeyCode()){
+		/*
+		 * [Enter]  
+		 * Start of pause the game
+		 */
+		case KeyEvent.VK_ENTER:
+			if(mGame.isStarted)
+				mGame.pauseGame();
+			else
+				mGame.startGame();
+			break;
+		}
+		
+		driveShip(e, true);	
+	}
+
+	/**
+	 * Called when a key is released
+	 * (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
+	@Override
+	public void keyReleased(KeyEvent e) {
+		driveShip(e, false);
 	}
 
 	@Override

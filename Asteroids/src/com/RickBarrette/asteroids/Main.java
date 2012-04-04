@@ -29,21 +29,21 @@ public class Main {
 	public static final boolean DEBUG = false;
 	
 	/**
-	 * Creates a new Main
-	 * @author ricky barrette
-	 */
-	public Main() {
-		AsteroidGame game = new AsteroidGame();
-		game.createGame();
-		game.startGame();
-	}
-
-	/**
 	 * @param args
 	 * @author ricky barrette
 	 */
 	public static void main(String[] args) {
 		new Main();
+	}
+
+	/**
+	 * Creates a new Main
+	 * @author ricky barrette
+	 */
+	public Main() {
+		AsteroidGame game = new AsteroidGame();
+		game.newGame();
+		game.startGame();
 	}
 
 }

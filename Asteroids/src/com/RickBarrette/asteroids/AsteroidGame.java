@@ -30,8 +30,8 @@ import java.util.Vector;
 public class AsteroidGame extends Thread {
 
 	private static final int DELAY_IN_MSEC = 50;
-	private ArrayList<Object> mWorld;
-	private GameFrame mGameFrame;
+	private final ArrayList<Object> mWorld;
+	private final GameFrame mGameFrame;
 	public boolean isStarted = false;
 
 	/**
@@ -40,6 +40,7 @@ public class AsteroidGame extends Thread {
 	 */
 	public AsteroidGame() {
 		mGameFrame = new GameFrame(this);
+		mWorld = new ArrayList<Object>();
 		//TODO simulate game play unitll game ist started
 		this.start();
 	}
@@ -49,7 +50,7 @@ public class AsteroidGame extends Thread {
 	 * @param add
 	 * @author ricky barrette
 	 */
-	public void addElement(Object o) {
+	public synchronized void addElement(Object o) {
 		if(o instanceof Shot)
 			mGameFrame.getStatusBar().incrementShotCount();
 		
@@ -57,120 +58,6 @@ public class AsteroidGame extends Thread {
 			mGameFrame.getStatusBar().incrementAsteroidCount();
 		
 		mWorld.add(o);
-	}
-
-	/**
-	 * popoluates the world for a new game 
-	 * @author ricky barrette
-	 */
-	public void createGame() {
-		mWorld = new ArrayList<Object>();
-		mWorld.add(new Ship(100,100,0,.35,.98,.4,1));
-		addElement(new Asteroid(500, 500, 1, 10, 50, 3, 3, this));
-		mGameFrame.getStatusBar().setShipCount(3);
-		mGameFrame.getStatusBar().setScore(0);
-		mGameFrame.getStatusBar().setAsteroidCount(1);
-		mGameFrame.getStatusBar().setTime(0);
-		mGameFrame.getStatusBar().setShotCount(0);
-	}
-
-	/**
-	 * @return the world
-	 * @author ricky barrette
-	 */
-	public ArrayList<Object> getWorld() {
-		return mWorld;
-	}
-	
-	/**
-	 * @return true if the world is empty
-	 * @author ricky barrette
-	 */
-	public boolean isEmpty() {
-		return mWorld.isEmpty();
-	}
-	
-	/**
-	 * Clears the world, and Creates a new game 
-	 * @author ricky barrette
-	 */
-	public void newGame() {
-		mWorld.clear();
-		mGameFrame.setDisplayText(null);
-		createGame();
-		startGame();
-	}
-
-	/**
-	 * Pauses the game 
-	 * @author ricky barrette
-	 */
-	public synchronized void pauseGame(){
-		isStarted = false;
-		mGameFrame.setDisplayText("Paused");
-		setMovingSpaceObjectsEnabled(false);
-	}
-
-	/**
-	 * Removes an object from this world.
-	 * @param o object to be removed
-	 * @author ricky barrette
-	 */
-	public void removeElement(Object o) {
-		if(o instanceof Shot)
-			mGameFrame.getStatusBar().decrementShotCount();
-		
-		if(o instanceof Asteroid) {
-			mGameFrame.getStatusBar().decrementAsteroidCount();
-			mGameFrame.getStatusBar().incrementScore(2);
-		}
-		mWorld.remove(o);
-	}
-
-	/**
-	 * Main game driver method.
-	 * 
-	 * @author ricky barrette
-	 */
-	@Override
-	public void run() {
-		while (true){
-			if(isStarted) {
-	
-				/*
-				 * update the display and stats
-				 */
-				mGameFrame.repaintDispaly();
-				mGameFrame.getStatusBar().updateStatus();
-				
-				/*
-				 * check for collsions
-				 */
-				Object o;
-				Collider c;
-				Vector<Object> wolrd = new Vector<Object>(mWorld);
-				for (int i = 0; i < wolrd.size(); i++){
-					o = wolrd.get(i);
-					if(o instanceof Collider){
-						c = (Collider) o;
-						for(int index = 0; index < wolrd.size(); index++)
-							if(c.checkForCollision(wolrd.get(index)))
-								//check to see if the ship blew up
-								if(wolrd.get(index) instanceof Ship)
-									downShip();
-					}
-				}
-				
-			}
-			/*
-			 * sleep till next time
-			 */
-			try {
-				sleep(DELAY_IN_MSEC);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	/**
@@ -202,23 +89,136 @@ public class AsteroidGame extends Thread {
 	}
 
 	/**
-	 * @return the number of objects in the world
+	 * @return the world
 	 * @author ricky barrette
 	 */
-	public int size() {
-		return mWorld.size();
+	public ArrayList<Object> getWorld() {
+		return mWorld;
+	}
+	
+	/**
+	 * populates the world for a new game 
+	 * @author ricky barrette
+	 */
+	public void initLevel() {	
+		/*
+		 * added a asteroid per level
+		 */
+		for(int i = 0; i < mGameFrame.getStatusBar().getLevel(); i ++)
+			addElement(new Asteroid(500, 500, 1, 10, 50, 3, 3, this));
+	}
+	
+	/**
+	 * @return true if the world is empty
+	 * @author ricky barrette
+	 */
+	public boolean isEmpty() {
+		return mWorld.isEmpty();
 	}
 
 	/**
-	 *  Starts the game
+	 * Clears the world, and Creates a new game 
 	 * @author ricky barrette
 	 */
-	public synchronized void startGame(){
+	public void newGame() {
+		mWorld.clear();
 		mGameFrame.setDisplayText(null);
-		setMovingSpaceObjectsEnabled(true);
-		isStarted = true;	
+		
+		mGameFrame.getStatusBar().setShipCount(3);
+		mGameFrame.getStatusBar().setScore(0);
+		mGameFrame.getStatusBar().setAsteroidCount(1);
+		mGameFrame.getStatusBar().setTime(0);
+		mGameFrame.getStatusBar().setShotCount(0);
+		mGameFrame.getStatusBar().setLevel(1);
+		
+		mWorld.add(new Ship(100,100,0,.35,.98,.4,1));
+		
+		initLevel();
+		
+		startGame();
 	}
+
+	/**
+	 * Pauses the game 
+	 * @author ricky barrette
+	 */
+	public synchronized void pauseGame(){
+		isStarted = false;
+		mGameFrame.setDisplayText("Paused");
+		setMovingSpaceObjectsEnabled(false);
+	}
+
+	/**
+	 * Removes an object from this world.
+	 * @param o object to be removed
+	 * @author ricky barrette
+	 */
+	public synchronized void removeElement(Object o) {
+		if(o instanceof Shot)
+			mGameFrame.getStatusBar().decrementShotCount();
+		
+		if(o instanceof Asteroid) {
+			mGameFrame.getStatusBar().decrementAsteroidCount();
+			mGameFrame.getStatusBar().incrementScore(2);
+		}
+		mWorld.remove(o);
+	}
+
+	/**
+	 * Main game driver method.
+	 * 
+	 * @author ricky barrette
+	 */
+	@Override
+	public void run() {
+		while (true){
+			if(isStarted) {
+				boolean isThereAsteroids = false;
 	
+				/*
+				 * update the display and stats
+				 */
+				mGameFrame.repaintDispaly();
+				mGameFrame.getStatusBar().updateStatus();
+				
+				/*
+				 * check for collsions
+				 */
+				Object o;
+				Collider c;
+				Vector<Object> wolrd = new Vector<Object>(mWorld);
+				for (int i = 0; i < wolrd.size(); i++){
+					o = wolrd.get(i);
+					if(o instanceof Collider){
+						isThereAsteroids = true;
+						c = (Collider) o;
+						for(int index = 0; index < wolrd.size(); index++)
+							if(c.checkForCollision(wolrd.get(index)))
+								//check to see if the ship blew up
+								if(wolrd.get(index) instanceof Ship)
+									downShip();
+					}
+				}
+				
+				/*
+				 * if there are no more asteroids, then increment the level
+				 */
+				if(!isThereAsteroids){
+					mGameFrame.getStatusBar().incrementLevel();
+					initLevel();
+				}
+			}
+			/*
+			 * sleep till next time
+			 */
+			try {
+				sleep(DELAY_IN_MSEC);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	/**
 	 * Sets the enabled state of Moving Space Objects
 	 * @param b
@@ -228,5 +228,23 @@ public class AsteroidGame extends Thread {
 		for(Object item : mWorld)
 			if(item instanceof MovingSpaceObject)
 				((MovingSpaceObject) item).setActive(b);	
+	}
+
+	/**
+	 * @return the number of objects in the world
+	 * @author ricky barrette
+	 */
+	public int size() {
+		return mWorld.size();
+	}
+	
+	/**
+	 *  Starts the game
+	 * @author ricky barrette
+	 */
+	public synchronized void startGame(){
+		mGameFrame.setDisplayText(null);
+		setMovingSpaceObjectsEnabled(true);
+		isStarted = true;	
 	}
 }

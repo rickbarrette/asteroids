@@ -41,6 +41,7 @@ public class Status extends JPanel {
 	private int mShipCount = 0;
 	private long mScore = 0;
 	private long mTime = 0;
+	private int mLevel = 0;
 
 	/**
 	 * Creates a new Status
@@ -62,6 +63,14 @@ public class Status extends JPanel {
 	 */
 	public synchronized void decrementAsteroidCount() {
 		this.mAsteroidCount -= 1;
+	}
+
+	/**
+	 * reduces the level by one 
+	 * @author ricky barrette
+	 */
+	public void decrementLevel() {
+		this.mLevel -= 1;
 	}
 
 	/**
@@ -97,48 +106,63 @@ public class Status extends JPanel {
 	public synchronized void decrementTime(long mTime) {
 		this.mTime -= mTime;
 	}
-
+	
 	/**
 	 * @return the mAsteroidCount
 	 */
 	public synchronized int getAsteroidCount() {
 		return mAsteroidCount;
 	}
-	
+
+	/**
+	 * @return the level
+	 */
+	public int getLevel() {
+		return mLevel;
+	}
+
 	/**
 	 * @return the mScore
 	 */
 	public synchronized long getScore() {
 		return mScore;
 	}
-
+	
 	/**
 	 * @return the mShipCount
 	 */
 	public synchronized int getShipCount() {
 		return mShipCount;
 	}
-
+	
 	/**
 	 * @return the mShotCount
 	 */
 	public synchronized int getShotCount() {
 		return mShotCount;
 	}
-	
+
 	/**
 	 * @return the mTime
 	 */
 	public synchronized long getTime() {
 		return mTime;
 	}
-	
+
 	/**
 	 * increases total asteroid count by 1 
 	 * @author ricky barrette
 	 */
 	public synchronized void incrementAsteroidCount() {
 		this.mAsteroidCount += 1;
+	}
+	
+	/**
+	 * increases the level by one 
+	 * @author ricky barrette
+	 */
+	public void incrementLevel() {
+		this.mLevel += 1;
 	}
 
 	/**
@@ -149,7 +173,7 @@ public class Status extends JPanel {
 	public synchronized void incrementScore(int score) {
 		this.mScore += score;
 	}
-
+	
 	/**
 	 * increases total ships by one 
 	 * @author ricky barrette
@@ -183,6 +207,13 @@ public class Status extends JPanel {
 	}
 	
 	/**
+	 * @param level the level to set
+	 */
+	public void setLevel(int level) {
+		this.mLevel = level;
+	}
+
+	/**
 	 * @param mScore the mScore to set
 	 */
 	public synchronized void setScore(long mScore) {
@@ -195,7 +226,7 @@ public class Status extends JPanel {
 	public synchronized void setShipCount(int mShipCount) {
 		this.mShipCount = mShipCount;
 	}
-	
+
 	/**
 	 * @param mShotCount the mShotCount to set
 	 */
@@ -209,20 +240,22 @@ public class Status extends JPanel {
 	public synchronized void setTime(long mTime) {
 		this.mTime = mTime;
 	}
-
+	
 	/**
 	 * Sets the status
 	 * @param temp
 	 * @author ricky barrette
 	 */
 	public void updateStatus() {
-		mBuffer.append("Missiles ");
+		mBuffer.append("Level: ");
+		mBuffer.append(mLevel);
+		mBuffer.append(" Missiles: ");
 		mBuffer.append(getShotCount());
-		mBuffer.append(" Asteroids ");
+		mBuffer.append(" Asteroids: ");
 		mBuffer.append(getAsteroidCount());
-		mBuffer.append(" Ships ");
+		mBuffer.append(" Ships: ");
 		mBuffer.append(getShipCount());
-		mBuffer.append(" Score ");
+		mBuffer.append(" Score: ");
 		mBuffer.append(getScore());
 		mBuffer.append(" Time: ");
 		mBuffer.append(getTime());

@@ -143,6 +143,14 @@ public class Ship extends MovingSpaceObject implements Drawable {
 		return mRadius;
 	}
 
+	public double getXVelocity() {
+		return this.mXVelocity;
+	}
+
+	public double getYVelocity() {
+		return this.mYVelocity;
+	}
+
 	/**
 	 * Called when ...
 	 * (non-Javadoc)
@@ -158,13 +166,5 @@ public class Ship extends MovingSpaceObject implements Drawable {
 			shotDelayLeft--; 
 		
 		super.move(scrnWidth, scrnHeight);
-	}
-
-	public double getXVelocity() {
-		return this.mXVelocity;
-	}
-
-	public double getYVelocity() {
-		return this.mYVelocity;
 	}
 }
