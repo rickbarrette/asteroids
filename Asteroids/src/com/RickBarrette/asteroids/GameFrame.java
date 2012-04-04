@@ -2,7 +2,7 @@
  * GameFrame.java
  * @date Mar 31, 2012
  * @author ricky barrette
- * @author Twenty Codes, LLC
+ * 
  * Copyright 2012 Richard Barrette 
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 

@@ -2,7 +2,6 @@
  * Asteroid.java
  * @date Apr 1, 2012
  * @author ricky barrette
- * @author Twenty Codes, LLC
  * 
  * Copyright 2012 Richard Barrette 
  * 

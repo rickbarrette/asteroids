@@ -2,7 +2,6 @@
  * Shot.java
  * @date Apr 2, 2012
  * @author ricky barrette
- * @author Twenty Codes, LLC
  *
  * Copyright 2012 Richard Barrette 
  * 
