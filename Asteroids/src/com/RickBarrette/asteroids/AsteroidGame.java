@@ -20,6 +20,7 @@
 package com.RickBarrette.asteroids;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
 
 /**
@@ -64,6 +65,7 @@ public class AsteroidGame extends Thread {
 	 * @author ricky barrette
 	 */
 	private void downShip() {
+		Random gen = new Random();
 		System.out.println("Ship collision dected");
 		/*
 		 * move the players ship's
@@ -77,7 +79,7 @@ public class AsteroidGame extends Thread {
 		}
 
 		if(s != null){
-			s.setLocation(100, 100);
+			s.setLocation(gen.nextInt(mGameFrame.getDisplayWidth()), gen.nextInt(mGameFrame.getDispalyHeight()));
 			s.allStop();
 		}
 		
@@ -106,12 +108,13 @@ public class AsteroidGame extends Thread {
 	 * populates the world for a new game 
 	 * @author ricky barrette
 	 */
-	public void initLevel() {	
+	public void initLevel() {
+		Random gen = new Random();
 		/*
 		 * added a asteroid per level
 		 */
 		for(int i = 0; i < mGameFrame.getStatusBar().getLevel(); i ++)
-			addElement(new Asteroid(500, 500, 1, 10, 50, 3, 3, this));
+			addElement(new Asteroid(gen.nextInt(mGameFrame.getDisplayWidth()), gen.nextInt(mGameFrame.getDispalyHeight()), 1, 10, 50, 3, 3, this));
 	}
 	
 	/**
@@ -127,6 +130,7 @@ public class AsteroidGame extends Thread {
 	 * @author ricky barrette
 	 */
 	public void newGame() {
+		Random gen = new Random();
 		mWorld.clear();
 		mGameFrame.setDisplayText(null);
 		
@@ -137,7 +141,7 @@ public class AsteroidGame extends Thread {
 		mGameFrame.getStatusBar().setShotCount(0);
 		mGameFrame.getStatusBar().setLevel(1);
 		
-		mWorld.add(new Ship(100,100,0,.35,.98,.2,1));
+		mWorld.add(new Ship(gen.nextInt(mGameFrame.getDisplayWidth()), gen.nextInt(mGameFrame.getDispalyHeight()),0,.35,.98,.2,1));
 		
 		initLevel();
 		

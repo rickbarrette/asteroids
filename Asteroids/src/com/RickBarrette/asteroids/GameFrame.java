@@ -182,7 +182,8 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 				case KeyEvent.VK_H:
 					if(isKeyPressed){
 						Random myRNG = new Random();
-						ship.setLocation(myRNG.nextInt(mDisplay.getHeight()), myRNG.nextInt(mDisplay.getWidth()));
+						ship.setLocation(myRNG.nextInt(mDisplay.getWidth()), myRNG.nextInt(mDisplay.getHeight()));
+						repaint();
 					}
 					break;
 					
