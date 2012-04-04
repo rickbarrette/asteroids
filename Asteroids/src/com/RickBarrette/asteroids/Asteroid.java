@@ -48,7 +48,7 @@ public class Asteroid extends MovingSpaceObject implements Collider, Drawable {
 	 */
 	public Asteroid(double x, double y, double minVelocity, double maxVelocity, int radius, int numberSplit, int hitsLeft, AsteroidGame game) {
 		mGame = game;
-		mColor = Color.GRAY;
+		mColor = new Color(66,33,0);
 		mX = x;
 		mY = y;
 		mMinVelocity = minVelocity;
