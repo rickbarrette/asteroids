@@ -212,12 +212,12 @@ public class AsteroidGame extends Thread {
 				/*
 				 * 1up every 200 points
 				 */
-				if(mGameFrame.getStatusBar().getScore() > 0 && mGameFrame.getStatusBar().getScore() % 200 == 0)
+				if(mGameFrame.getStatusBar().getScore() > 0 && mGameFrame.getStatusBar().getScore() % 200 == 0){
 					if(!hasOneUped){
 						mGameFrame.getStatusBar().incrementShipCount();
 						hasOneUped = true;
 					}
-				else
+				} else
 					hasOneUped = false;
 			}
 			/*
