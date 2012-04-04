@@ -21,20 +21,13 @@ package com.RickBarrette.asteroids;
 
 /**
  * This is the main class of my asteroids game.
+ * This application is based from "A Guide to Programming Asteroids As a Java Applet" by Brandon Carroll.
  * @author ricky barrette
  */
 public class Main {
 
 	public static final boolean DEBUG = false;
 	
-	/**
-	 * @param args
-	 * @author ricky barrette
-	 */
-	public static void main(String[] args) {
-		new Main();
-	}
-
 	/**
 	 * Creates a new Main
 	 * @author ricky barrette
@@ -45,4 +38,11 @@ public class Main {
 		game.startGame();
 	}
 
+	/**
+	 * @param args
+	 * @author ricky barrette
+	 */
+	public static void main(String[] args) {
+		new Main();
+	}
 }
