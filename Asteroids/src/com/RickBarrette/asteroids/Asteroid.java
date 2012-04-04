@@ -57,7 +57,7 @@ public class Asteroid extends MovingSpaceObject implements Collider, Drawable {
 		mAngle = 2 * Math.PI * Math.random(); // random direction
 		mXVelocity = vel * Math.cos(mAngle);
 		mYVelocity = vel * Math.sin(mAngle);
-
+		mVelocityDecay = .999;
 		mNumberSplit = numberSplit;
 		mHitsLeft = hitsLeft;
 		mRadius = radius;
