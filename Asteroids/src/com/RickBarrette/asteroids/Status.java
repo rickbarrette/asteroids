@@ -61,7 +61,8 @@ public class Status extends JPanel {
 	 * @author ricky barrette
 	 */
 	public synchronized void decrementAsteroidCount() {
-		this.mAsteroidCount -= 1;
+		if(this.mAsteroidCount > 0)
+			this.mAsteroidCount -= 1;
 	}
 
 	/**
@@ -69,7 +70,8 @@ public class Status extends JPanel {
 	 * @author ricky barrette
 	 */
 	public void decrementLevel() {
-		this.mLevel -= 1;
+		if(this.mLevel > 0)
+			this.mLevel -= 1;
 	}
 
 	/**
@@ -78,7 +80,8 @@ public class Status extends JPanel {
 	 * @author ricky barrette
 	 */
 	public synchronized void decrementScore(int score) {
-		this.mScore -= mScore;
+		if(this.mScore - mScore > 0)
+			this.mScore -= mScore;
 	}
 
 	/**
@@ -86,7 +89,8 @@ public class Status extends JPanel {
 	 * @author ricky barrette
 	 */
 	public synchronized void decrementShipCount() {
-		this.mShipCount -= 1;
+		if(this.mShipCount > 0)
+			this.mShipCount -= 1;
 	}
 
 	/**
@@ -94,7 +98,8 @@ public class Status extends JPanel {
 	 * @author ricky barrette
 	 */
 	public synchronized void decrementShotCount() {
-		this.mShotCount -= 1;
+		if(this.mShotCount > 0)
+			this.mShotCount -= 1;
 	}
 
 	/**
@@ -103,6 +108,7 @@ public class Status extends JPanel {
 	 * @author ricky barrette
 	 */
 	public synchronized void decrementTime(long mTime) {
+		if(this.mTime - mTime > 0)
 		this.mTime -= mTime;
 	}
 	
@@ -248,15 +254,15 @@ public class Status extends JPanel {
 	public void updateStatus() {
 		mBuffer.append("Level: ");
 		mBuffer.append(mLevel);
-		mBuffer.append(" Missiles: ");
+		mBuffer.append("       Missiles: ");
 		mBuffer.append(getShotCount());
-		mBuffer.append(" Asteroids: ");
+		mBuffer.append("       Asteroids: ");
 		mBuffer.append(getAsteroidCount());
-		mBuffer.append(" Ships: ");
+		mBuffer.append("       Ships: ");
 		mBuffer.append(getShipCount());
-		mBuffer.append(" Score: ");
+		mBuffer.append("       Score: ");
 		mBuffer.append(getScore());
-		mBuffer.append(" Time: ");
+		mBuffer.append("       Time: ");
 		mBuffer.append(getTime());
 		status.setText(mBuffer.toString());
 		mBuffer = new StringBuffer();
