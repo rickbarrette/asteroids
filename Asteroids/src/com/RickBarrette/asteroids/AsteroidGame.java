@@ -66,23 +66,30 @@ public class AsteroidGame extends Thread {
 	private void downShip() {
 		System.out.println("Ship collision dected");
 		/*
-		 * remove the players ship's
+		 * move the players ship's
 		 */
-		Object o;
+		Object o = null;
+		Ship s = null;
 		for (int i = 0; i < mWorld.size(); i++){
 			o = mWorld.get(i);
 			if(o instanceof Ship)
-				mWorld.remove(i);
+				s = (Ship) o;
+		}
+
+		if(s != null){
+			s.setLocation(100, 100);
+			s.allStop();
 		}
 		
 		mGameFrame.getStatusBar().decrementShipCount();
 		
 		if(mGameFrame.getStatusBar().getShipCount() > 0){
 			pauseGame();
-			mWorld.add(new Ship(100,100,0,.35,.98,.4,1));
 			mGameFrame.setDisplayText("You died, You can hyper jump to a safe place now...\nPress start when ready.");
 		} else {
 			mGameFrame.setDisplayText("Game Over");
+			if(s != null)
+				mWorld.remove(s);
 		}
 		mGameFrame.repaint();
 	}
@@ -130,7 +137,7 @@ public class AsteroidGame extends Thread {
 		mGameFrame.getStatusBar().setShotCount(0);
 		mGameFrame.getStatusBar().setLevel(1);
 		
-		mWorld.add(new Ship(100,100,0,.35,.98,.4,1));
+		mWorld.add(new Ship(100,100,0,.35,.98,.2,1));
 		
 		initLevel();
 		

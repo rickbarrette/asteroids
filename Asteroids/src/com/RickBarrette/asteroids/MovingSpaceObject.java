@@ -34,6 +34,18 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 	protected boolean isTurningLeft = false, isTurningRight = false, isAccelerating = false, isActive = true;
 
 	/**
+	 * Completly stops the ship 
+	 * @author ricky barrette
+	 */
+	public void allStop(){
+		mXVelocity = 0;
+		mYVelocity = 0;
+		isTurningLeft = false;
+		isTurningRight = false;
+		isAccelerating = false;
+	}
+	
+	/**
 	 * @return true if the space object is accelerating
 	 * @author ricky barrette
 	 */
