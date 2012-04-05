@@ -205,12 +205,24 @@ public class Status extends JPanel {
 	}
 	
 	/**
+	 * convince method for formating the seconds string
+	 * @param seconds
+	 * @return formated string
+	 * @author ricky barrette
+	 */
+	private String padTime(int time){
+		if (time <= 9)
+			return "0"+ time;
+		return ""+ time;
+	}
+	
+	/**
 	 * @param mAsteroidCount the mAsteroidCount to set
 	 */
 	public synchronized void setAsteroidCount(int mAsteroidCount) {
 		this.mAsteroidCount = mAsteroidCount;
 	}
-	
+
 	/**
 	 * @param level the level to set
 	 */
@@ -231,7 +243,7 @@ public class Status extends JPanel {
 	public synchronized void setShipCount(int mShipCount) {
 		this.mShipCount = mShipCount;
 	}
-
+	
 	/**
 	 * @param mShotCount the mShotCount to set
 	 */
@@ -244,6 +256,21 @@ public class Status extends JPanel {
 	 */
 	public synchronized void setTime(long mTime) {
 		this.mTime = mTime;
+	}
+
+	/**
+	 * convince method for formating milliseconds into hour : minutes format
+	 * @param mills
+	 * @return human readable hour : minutes format
+	 * @author ricky barrette
+	 */
+	private String stringTime(long mills){
+		int hours = (int) (mills / 3600000);
+		mills = mills - (hours * 3600000);
+		int minutes = (int) ( mills / 60000);
+		int seconds = (int) (mills % 60000);
+		seconds = seconds / 1000;
+		return hours +" : "+ padTime(minutes) +" : "+ padTime(seconds);
 	}
 	
 	/**
@@ -263,7 +290,7 @@ public class Status extends JPanel {
 		mBuffer.append("       Score: ");
 		mBuffer.append(getScore());
 		mBuffer.append("       Time: ");
-		mBuffer.append(getTime());
+		mBuffer.append(stringTime(getTime()));
 		status.setText(mBuffer.toString());
 		mBuffer = new StringBuffer();
 	}

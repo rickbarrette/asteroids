@@ -32,6 +32,7 @@ public class AsteroidGame extends Thread {
 	private final ArrayList<Object> mWorld;
 	private final GameFrame mGameFrame;
 	public boolean isStarted = false;
+	private long mLastTime;
 
 	/**
 	 * Creates an new Asteroids game 
@@ -221,7 +222,13 @@ public class AsteroidGame extends Thread {
 		Object[] world;
 		while (true){
 			if(isStarted) {
-	
+				
+				/*
+				 * increment time
+				 */
+				mGameFrame.getStatusBar().incrementTime(System.currentTimeMillis() - mLastTime);
+				mLastTime = System.currentTimeMillis();
+				
 				/*
 				 * update the display and stats
 				 */
@@ -317,6 +324,7 @@ public class AsteroidGame extends Thread {
 	 * @author ricky barrette
 	 */
 	public synchronized void startGame(){
+		mLastTime = System.currentTimeMillis();
 		mGameFrame.setDisplayText(null);
 		setMovingSpaceObjectsEnabled(true);
 		isStarted = true;	
