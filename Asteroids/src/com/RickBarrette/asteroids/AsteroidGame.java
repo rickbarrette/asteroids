@@ -21,7 +21,6 @@ package com.RickBarrette.asteroids;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Vector;
 
 /**
  * This class maintain's the game logic. It is the main driver
@@ -173,6 +172,9 @@ public class AsteroidGame extends Thread {
 	public void run() {
 		boolean hasOneUped = false;
 		int asteroidCount = 0, shotCount = 0;
+		Object o;
+		Collider c;
+		Object[] world;
 		while (true){
 			if(isStarted) {
 	
@@ -185,18 +187,16 @@ public class AsteroidGame extends Thread {
 				/*
 				 * check for collsions
 				 */
-				Object o;
-				Collider c;
-				Vector<Object> wolrd = new Vector<Object>(mWorld);
-				for (int i = 0; i < wolrd.size(); i++){
-					o = wolrd.get(i);
+				world = mWorld.toArray();
+				for (int i = 0; i < world.length; i++){
+					o = world[i];
 					if(o instanceof Collider){
 						asteroidCount++;
 						c = (Collider) o;
-						for(int index = 0; index < wolrd.size(); index++)
-							if(c.checkForCollision(wolrd.get(index)))
+						for(int index = 0; index < world.length; index++)
+							if(c.checkForCollision(world[index]))
 								//check to see if the ship blew up
-								if(wolrd.get(index) instanceof Ship)
+								if(world[index] instanceof Ship)
 									downShip();
 					}
 					
