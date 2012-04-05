@@ -58,7 +58,6 @@ public class AsteroidGame extends Thread {
 	 * @author ricky barrette
 	 */
 	private void downShip() {
-		Random gen = new Random();
 		System.out.println("Ship collision dected");
 		/*
 		 * move the players ship's
@@ -72,15 +71,15 @@ public class AsteroidGame extends Thread {
 		}
 
 		if(s != null){
-			s.setLocation(gen.nextInt(mGameFrame.getDisplayWidth()), gen.nextInt(mGameFrame.getDispalyHeight()));
 			s.allStop();
+			hyperJump(s);
 		}
 		
 		mGameFrame.getStatusBar().decrementShipCount();
 		
 		if(mGameFrame.getStatusBar().getShipCount() > 0){
 			pauseGame();
-			mGameFrame.setDisplayText("You died, You can hyper jump to a safe place now...\nPress start when ready.");
+			mGameFrame.setDisplayText("You died, You can hyper jump to a safe place now... Press start when ready.");
 		} else {
 			mGameFrame.setDisplayText("Game Over");
 			if(s != null)
@@ -98,6 +97,25 @@ public class AsteroidGame extends Thread {
 	}
 	
 	/**
+	 * Hyperjumps the sip
+	 * @param ship
+	 * @author ricky barrette
+	 */
+	public void hyperJump(Ship ship) {
+//		boolean isSafe = true;
+		Random gen = new Random();
+//		do{
+			System.out.println("hyper jumping");
+			ship.setLocation(gen.nextInt(mGameFrame.getDisplayWidth()), gen.nextInt(mGameFrame.getDispalyHeight()));
+//			for(int i = 0; i < mWorld.size(); i++)
+//				if(mWorld.get(i) instanceof Collider)
+//					if(((Collider) mWorld.get(i)).checkForCollision(ship))
+//						isSafe = false;
+//		} while (!isSafe);
+			mGameFrame.repaintDispaly();		
+	}
+	
+	/**
 	 * populates the world for a new game 
 	 * @author ricky barrette
 	 */
@@ -109,7 +127,7 @@ public class AsteroidGame extends Thread {
 		for(int i = 0; i < mGameFrame.getStatusBar().getLevel(); i ++)
 			addElement(new Asteroid(gen.nextInt(mGameFrame.getDisplayWidth()), gen.nextInt(mGameFrame.getDispalyHeight()), 1, 10, 50, 3, 3, this));
 	}
-	
+
 	/**
 	 * @return true if the world is empty
 	 * @author ricky barrette
@@ -257,7 +275,7 @@ public class AsteroidGame extends Thread {
 			if(item instanceof MovingSpaceObject)
 				((MovingSpaceObject) item).setActive(b);	
 	}
-
+	
 	/**
 	 * @return the number of objects in the world
 	 * @author ricky barrette
@@ -265,7 +283,7 @@ public class AsteroidGame extends Thread {
 	public int size() {
 		return mWorld.size();
 	}
-	
+
 	/**
 	 *  Starts the game
 	 * @author ricky barrette

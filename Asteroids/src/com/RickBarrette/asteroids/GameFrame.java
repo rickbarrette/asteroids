@@ -25,7 +25,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -181,9 +180,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 				 */
 				case KeyEvent.VK_H:
 					if(isKeyPressed){
-						Random myRNG = new Random();
-						ship.setLocation(myRNG.nextInt(mDisplay.getWidth()), myRNG.nextInt(mDisplay.getHeight()));
-						repaint();
+						mGame.hyperJump(ship);
 					}
 					break;
 					
