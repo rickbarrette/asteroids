@@ -1,5 +1,5 @@
 /**
- * Display.java
+java  * Display.java
  * @date Mar 31, 2012
  * @author ricky barrette
  * 
@@ -60,7 +60,7 @@ public class Display extends JPanel {
 		
 		if(mText != null){
 			g.setColor(Color.ORANGE);
-			g.drawString(mText, this.getWidth() / 2, this.getHeight() /2 );
+			g.drawString(mText, (this.getWidth() / 2) - ((int) g.getFontMetrics().getStringBounds(mText, g).getWidth() / 2), this.getHeight() /2 );
 		}
 
 		/*
