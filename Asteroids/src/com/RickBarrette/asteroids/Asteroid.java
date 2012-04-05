@@ -154,7 +154,7 @@ public class Asteroid extends MovingSpaceObject implements Collider, Drawable {
 	 */
 	public boolean shotCollision(Shot shot) {
 		if( Math.pow(mRadius, 2) > Math.pow(shot.getX() - mX, 2) + Math.pow(shot.getY() - mY, 2)){
-			/**
+			/*
 			 * remove the asteroid and the shot
 			 */
 			mGame.removeElement(this);

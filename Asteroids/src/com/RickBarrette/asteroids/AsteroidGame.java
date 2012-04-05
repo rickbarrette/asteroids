@@ -51,12 +51,6 @@ public class AsteroidGame extends Thread {
 	 * @author ricky barrette
 	 */
 	public synchronized void addElement(Object o) {
-		if(o instanceof Shot)
-			mGameFrame.getStatusBar().incrementShotCount();
-		
-		if(o instanceof Asteroid)
-			mGameFrame.getStatusBar().incrementAsteroidCount();
-		
 		mWorld.add(o);
 	}
 
@@ -164,11 +158,7 @@ public class AsteroidGame extends Thread {
 	 * @author ricky barrette
 	 */
 	public synchronized void removeElement(Object o) {
-		if(o instanceof Shot)
-			mGameFrame.getStatusBar().decrementShotCount();
-		
 		if(o instanceof Asteroid) {
-			mGameFrame.getStatusBar().decrementAsteroidCount();
 			mGameFrame.getStatusBar().incrementScore(2);
 		}
 		mWorld.remove(o);
@@ -182,9 +172,9 @@ public class AsteroidGame extends Thread {
 	@Override
 	public void run() {
 		boolean hasOneUped = false;
+		int asteroidCount = 0, shotCount = 0;
 		while (true){
 			if(isStarted) {
-				boolean isThereAsteroids = false;
 	
 				/*
 				 * update the display and stats
@@ -201,7 +191,7 @@ public class AsteroidGame extends Thread {
 				for (int i = 0; i < wolrd.size(); i++){
 					o = wolrd.get(i);
 					if(o instanceof Collider){
-						isThereAsteroids = true;
+						asteroidCount++;
 						c = (Collider) o;
 						for(int index = 0; index < wolrd.size(); index++)
 							if(c.checkForCollision(wolrd.get(index)))
@@ -209,12 +199,16 @@ public class AsteroidGame extends Thread {
 								if(wolrd.get(index) instanceof Ship)
 									downShip();
 					}
+					
+					//coutn the shots
+					if(o instanceof Shot)
+						shotCount++;
 				}
 				
 				/*
 				 * if there are no more asteroids, then increment the level
 				 */
-				if(!isThereAsteroids){
+				if(asteroidCount == 0){
 					mGameFrame.getStatusBar().incrementLevel();
 					initLevel();
 				}
@@ -229,6 +223,18 @@ public class AsteroidGame extends Thread {
 					}
 				} else
 					hasOneUped = false;
+				
+				/*
+				 * update the status bar with the new counts
+				 */
+				mGameFrame.getStatusBar().setShotCount(shotCount);
+				mGameFrame.getStatusBar().setAsteroidCount(asteroidCount);
+				
+				/*
+				 * reset counters
+				 */
+				asteroidCount = 0;
+				shotCount = 0;
 			}
 			/*
 			 * sleep till next time
