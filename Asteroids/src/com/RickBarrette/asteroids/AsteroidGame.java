@@ -126,6 +126,8 @@ public class AsteroidGame extends Thread {
 		 */
 		for(int i = 0; i < mGameFrame.getStatusBar().getLevel(); i ++)
 			addElement(new Asteroid(gen.nextInt(mGameFrame.getDisplayWidth()), gen.nextInt(mGameFrame.getDispalyHeight()), 1, 10, 50, 3, 3, this));
+		
+		notification("Level "+ mGameFrame.getStatusBar().getLevel());
 	}
 
 	/**
@@ -157,6 +159,30 @@ public class AsteroidGame extends Thread {
 		initLevel();
 		
 		startGame();
+		
+		notification("Level "+ mGameFrame.getStatusBar().getLevel());
+	}
+
+	/**
+	 * Displays a nofication to the user for 2 seconds
+	 * @param string
+	 * @author ricky barrette
+	 */
+	private void notification(final String string) {
+		mGameFrame.setDisplayText(string);
+		
+		new Thread(new Runnable(){
+			@Override
+			public void run(){
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(isStarted)
+					mGameFrame.setDisplayText(null);
+			}
+		}).start();
 	}
 
 	/**
@@ -238,6 +264,8 @@ public class AsteroidGame extends Thread {
 					if(!hasOneUped){
 						mGameFrame.getStatusBar().incrementShipCount();
 						hasOneUped = true;
+										
+						notification("1up!");
 					}
 				} else
 					hasOneUped = false;

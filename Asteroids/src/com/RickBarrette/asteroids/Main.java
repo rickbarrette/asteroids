@@ -35,7 +35,6 @@ public class Main {
 	public Main() {
 		AsteroidGame game = new AsteroidGame();
 		game.newGame();
-		game.startGame();
 	}
 
 	/**
