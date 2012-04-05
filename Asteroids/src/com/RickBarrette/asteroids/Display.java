@@ -22,7 +22,9 @@ package com.RickBarrette.asteroids;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 
 import javax.swing.JPanel;
 
@@ -36,6 +38,7 @@ public class Display extends JPanel {
 	private AsteroidGame mGame;
 	private Container mContainer;
 	private String mText;
+	private Font mFont;
 
 	/**
 	 * Creates a new Dispay
@@ -47,7 +50,10 @@ public class Display extends JPanel {
 		mGame = g;
 		mContainer = c;
 		this.setBackground(new Color(0, 0, 0));
-		mContainer.add(this, BorderLayout.CENTER); 
+		mContainer.add(this, BorderLayout.CENTER);
+		int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
+	    int fontSize = (int)Math.round(14.0 * screenRes / 72.0);
+	    mFont = new Font("Arial", Font.PLAIN, fontSize);
 	}
 
 	/**
@@ -58,10 +64,6 @@ public class Display extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		if(mText != null){
-			g.setColor(Color.ORANGE);
-			g.drawString(mText, (this.getWidth() / 2) - ((int) g.getFontMetrics().getStringBounds(mText, g).getWidth() / 2), this.getHeight() /2 );
-		}
 
 		/*
 		 * Move & Draw the world's objects
@@ -79,6 +81,15 @@ public class Display extends JPanel {
 			
 			if(item instanceof Drawable)
 				((Drawable) item).draw(g);
+		}
+		
+		/*
+		 * draw the text to be displayed
+		 */
+		if(mText != null){
+			g.setColor(Color.ORANGE);
+			g.setFont(mFont);
+			g.drawString(mText, (this.getWidth() / 2) - ((int) g.getFontMetrics().getStringBounds(mText, g).getWidth() / 2), this.getHeight() /2 );
 		}
 	}
 
