@@ -73,7 +73,7 @@ public class AsteroidGame extends Thread {
 
 		if(s != null){
 			s.allStop();
-			hyperJump(s);
+			s.hyperJump();
 		}
 		
 		mGameFrame.getStatusBar().decrementShipCount();
@@ -90,32 +90,21 @@ public class AsteroidGame extends Thread {
 	}
 
 	/**
+	 * @return the game's frame
+	 * @author ricky barrette
+	 */
+	public GameFrame getGameFrame() {
+		return this.mGameFrame;
+	}
+	
+	/**
 	 * @return the world
 	 * @author ricky barrette
 	 */
 	public ArrayList<Object> getWorld() {
 		return mWorld;
 	}
-	
-	/**
-	 * Hyperjumps the sip
-	 * @param ship
-	 * @author ricky barrette
-	 */
-	public void hyperJump(final Ship ship) {
-//		boolean isSafe = true;
-		Random gen = new Random();
-//		do{
-			System.out.println("hyper jumping");
-			ship.setLocation(gen.nextInt(mGameFrame.getDisplayWidth()), gen.nextInt(mGameFrame.getDispalyHeight()));
-//			for(int i = 0; i < mWorld.size(); i++)
-//				if(mWorld.get(i) instanceof Collider)
-//					if(((Collider) mWorld.get(i)).checkForCollision(ship))
-//						isSafe = false;
-//		} while (!isSafe);
-			mGameFrame.repaintDispaly();		
-	}
-	
+
 	/**
 	 * populates the world for a new game 
 	 * @author ricky barrette
@@ -155,7 +144,7 @@ public class AsteroidGame extends Thread {
 		mGameFrame.getStatusBar().setShotCount(0);
 		mGameFrame.getStatusBar().setLevel(1);
 		
-		mWorld.add(new Ship(gen.nextInt(mGameFrame.getDisplayWidth()), gen.nextInt(mGameFrame.getDispalyHeight()),0,.35,.98,.2,1));
+		mWorld.add(new Ship(gen.nextInt(mGameFrame.getDisplayWidth()), gen.nextInt(mGameFrame.getDispalyHeight()), 0, .35, .98, .2, 1, this));
 		
 		initLevel();
 		
@@ -300,7 +289,7 @@ public class AsteroidGame extends Thread {
 			}
 		}
 	}
-
+	
 	/**
 	 * Sets the enabled state of Moving Space Objects
 	 * @param b
@@ -311,7 +300,7 @@ public class AsteroidGame extends Thread {
 			if(item instanceof MovingSpaceObject)
 				((MovingSpaceObject) item).setActive(b);	
 	}
-	
+
 	/**
 	 * @return the number of objects in the world
 	 * @author ricky barrette

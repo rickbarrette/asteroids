@@ -179,7 +179,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 				 */
 				case KeyEvent.VK_H:
 					if(isKeyPressed){
-						mGame.hyperJump(ship);
+						ship.hyperJump();
 					}
 					break;
 					
@@ -188,7 +188,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 				 */
 				case KeyEvent.VK_SPACE:
 					if(isKeyPressed)
-						mGame.addElement(new Shot(ship.getX(), ship.getY(), ship.getAngle(), ship.getXVelocity(), ship.getYVelocity(), mGame));
+						ship.shoot();
 					break;
 			}
 	}

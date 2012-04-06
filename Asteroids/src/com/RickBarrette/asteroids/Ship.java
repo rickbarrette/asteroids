@@ -21,6 +21,7 @@ package com.RickBarrette.asteroids;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 /**
  * This class will be the user's ship. I will be used to destroy the asteroids, with it's laser! Pew Pew Pew!!!
@@ -32,9 +33,10 @@ public class Ship extends MovingSpaceObject {
 	private final int[] mOrigYpoints = { 0, -8, 0, 8 };
 	private final int[] mOrigFlameXpoints = { -6, -23, -6 };
 	private final int[] mOrigFlameYpoints = { -3, 0, 3 };
-	private final int shotDelay;
+	private final int mShotDelay;
 	private int[] mXpoints = new int[4], mYpoints = new int[4], mFlameXpoints = new int[3], mFlameYpoints = new int[3];
-	private int shotDelayLeft;
+	private int mShotDelayLeft;
+	private final AsteroidGame mGame;
 
 	/**
 	 * radius of circle used to approximate the ship
@@ -51,8 +53,9 @@ public class Ship extends MovingSpaceObject {
 	 * @param rotationalSpeed of the ship
 	 * @param shotDelay of the ship
 	 * @author ricky barrette
+	 * @param game 
 	 */
-	public Ship(final double x, final double y, final double angle, final double acceleration, final double velocityDecay, final double rotationalSpeed, final int shotDelay) {
+	public Ship(final double x, final double y, final double angle, final double acceleration, final double velocityDecay, final double rotationalSpeed, final int shotDelay, final AsteroidGame game) {
 		this.mX = x;
 		this.mY = y;
 		this.mAngle = angle;
@@ -60,15 +63,16 @@ public class Ship extends MovingSpaceObject {
 		this.mVelocityDecay = velocityDecay;
 		this.mRotationalSpeed = rotationalSpeed;
 		this.mColor = Color.CYAN;
+		mGame = game;
 
 		// start off paused
 		this.isActive = false;
 
 		// # of frames between shots
-		this.shotDelay = shotDelay;
+		this.mShotDelay = shotDelay;
 
 		// ready to shoot
-		this.shotDelayLeft = 0;
+		this.mShotDelayLeft = 0;
 	}
 
 	/**
@@ -79,7 +83,7 @@ public class Ship extends MovingSpaceObject {
 		/*
 		 * check if the shot delay has been satifiyed
 		 */
-		if (shotDelayLeft > 0)
+		if (mShotDelayLeft > 0)
 			return false;
 		else
 			return true;
@@ -138,14 +142,6 @@ public class Ship extends MovingSpaceObject {
 	}
 	
 	/**
-	 * @return the ship's current angle
-	 * @author ricky barrette
-	 */
-	public double getAngle() {
-		return mAngle;
-	}
-
-	/**
 	 * @return radius of circle that approximates the ship
 	 * @author ricky barrette
 	 */
@@ -153,12 +149,23 @@ public class Ship extends MovingSpaceObject {
 		return mRadius;
 	}
 
-	public double getXVelocity() {
-		return this.mXVelocity;
-	}
-
-	public double getYVelocity() {
-		return this.mYVelocity;
+	/**
+	 * Hyperjumps the sip
+	 * @param ship
+	 * @author ricky barrette
+	 */
+	public void hyperJump() {
+//		boolean isSafe = true;
+		Random gen = new Random();
+//		do{
+			System.out.println("hyper jumping");
+			setLocation(gen.nextInt(mGame.getGameFrame().getDisplayWidth()), gen.nextInt(mGame.getGameFrame().getDispalyHeight()));
+//			for(int i = 0; i < mWorld.size(); i++)
+//				if(mWorld.get(i) instanceof Collider)
+//					if(((Collider) mWorld.get(i)).checkForCollision(ship))
+//						isSafe = false;
+//		} while (!isSafe);
+			mGame.getGameFrame().repaintDispaly();		
 	}
 
 	/**
@@ -172,9 +179,20 @@ public class Ship extends MovingSpaceObject {
 		 * move() is called every frame that the game
 		 * is run, so this ticks down the shot delay
 		 */
-		if (shotDelayLeft > 0)
-			shotDelayLeft--; 
+		if (mShotDelayLeft > 0)
+			mShotDelayLeft--; 
 		
 		super.move(scrnWidth, scrnHeight);
+	}
+	
+	/**
+	 * Fires a shot from the ship
+	 * @author ricky barrette
+	 */
+	public void shoot() {
+		if(canShoot()) {
+			mGame.addElement(new Shot(mX, mY, mAngle, mXVelocity, mYVelocity, mGame));
+			mShotDelayLeft += mShotDelay;
+		}
 	}
 }

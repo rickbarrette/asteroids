@@ -46,6 +46,30 @@ public abstract class MovingSpaceObject extends SpaceObject implements Moveable{
 	}
 	
 	/**
+	 * @return the moving space object's angle
+	 * @author ricky barrette
+	 */
+	public double getAngle() {
+		return mAngle;
+	}
+	
+	/**
+	 * @return the moving space object's x volocity
+	 * @author ricky barrette
+	 */
+	public double getXVelocity() {
+		return this.mXVelocity;
+	}
+
+	/**
+	 * @return the moving space object's y velocity
+	 * @author ricky barrette
+	 */
+	public double getYVelocity() {
+		return this.mYVelocity;
+	}
+	
+	/**
 	 * @return true if the space object is accelerating
 	 * @author ricky barrette
 	 */
@@ -68,7 +92,7 @@ public abstract class MovingSpaceObject extends SpaceObject implements Moveable{
 	public boolean isTurningLeft(){
 		return isTurningLeft;
 	}
-	
+
 	/**
 	 * @return true if the space object is turning right
 	 * @author ricky barrette
@@ -138,7 +162,7 @@ public abstract class MovingSpaceObject extends SpaceObject implements Moveable{
 	public void setAccelerating(final boolean accelerating) {
 		this.isAccelerating = accelerating; // start or stop accelerating the ship
 	}
-
+	
 	/**
 	 * Sets wether or not this space object is active
 	 * @param active
