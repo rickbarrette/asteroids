@@ -26,21 +26,17 @@ import java.awt.Graphics;
  * This class will be the user's ship. I will be used to destroy the asteroids, with it's laser! Pew Pew Pew!!!
  * @author ricky barrette
  */
-public class Ship extends MovingSpaceObject implements Drawable {
+public class Ship extends MovingSpaceObject {
 
 	private final int[] mOrigXpoints = { 14, -10, -6, -10 };
 	private final int[] mOrigYpoints = { 0, -8, 0, 8 };
 	private final int[] mOrigFlameXpoints = { -6, -23, -6 };
 	private final int[] mOrigFlameYpoints = { -3, 0, 3 };
-	
-	/*
-	 * store the current locations of the points used to draw the ship and its
-	 * flame
-	 */
-	int[] mXpoints = new int[4], mYpoints = new int[4], mFlameXpoints = new int[3], mFlameYpoints = new int[3];
-	int shotDelay, shotDelayLeft; // used to determine the rate of firing
+	private final int shotDelay;
+	private int[] mXpoints = new int[4], mYpoints = new int[4], mFlameXpoints = new int[3], mFlameYpoints = new int[3];
+	private int shotDelayLeft;
 
-	/*
+	/**
 	 * radius of circle used to approximate the ship
 	 */
 	private final int mRadius = 6;
@@ -56,8 +52,7 @@ public class Ship extends MovingSpaceObject implements Drawable {
 	 * @param shotDelay of the ship
 	 * @author ricky barrette
 	 */
-	public Ship(double x, double y, double angle, double acceleration, double velocityDecay, double rotationalSpeed, int shotDelay) {
-		// this.x refers to the Ship's x, x refers to the x parameter
+	public Ship(final double x, final double y, final double angle, final double acceleration, final double velocityDecay, final double rotationalSpeed, final int shotDelay) {
 		this.mX = x;
 		this.mY = y;
 		this.mAngle = angle;
@@ -81,9 +76,11 @@ public class Ship extends MovingSpaceObject implements Drawable {
 	 * @author ricky barrette
 	 */
 	public boolean canShoot() {
-		if (shotDelayLeft > 0) // checks to see if the ship is ready to
+		/*
+		 * check if the shot delay has been satifiyed
+		 */
+		if (shotDelayLeft > 0)
 			return false;
-		// shoot again yet or if it needs to wait longer
 		else
 			return true;
 	}
@@ -94,36 +91,50 @@ public class Ship extends MovingSpaceObject implements Drawable {
 	 * @see com.RickBarrette.asteroids.Drawable#draw(java.awt.Graphics)
 	 */
 	@Override
-	public void draw(Graphics g) {
+	public void draw(final Graphics g) {
 		
 		if(Main.DEBUG)
 			System.out.println("draw()"+ mX + ", "+ mY);
 		
-		// rotate the points, translate them to the ship's location (by
-		// adding x and y), then round them by adding .5 and casting them
-		// as integers (which truncates any decimal place)
-		if (isAccelerating && isActive) { // draw flame if accelerating
+		/*
+		 * rotate the points, translate them to the ship's location (by
+		 * adding x and y), then round them by adding .5 and casting them
+		 * as integers (which truncates any decimal place)
+		 */
+		
+		/*
+		 * draw the ship's flame, if accelerating
+		 */
+		if (isAccelerating && isActive) {
 			for (int i = 0; i < 3; i++) {
 				mFlameXpoints[i] = (int) (mOrigFlameXpoints[i] * Math.cos(mAngle) - mOrigFlameYpoints[i] * Math.sin(mAngle) + mX + .5);
 				mFlameYpoints[i] = (int) (mOrigFlameXpoints[i] * Math.sin(mAngle) + mOrigFlameYpoints[i] * Math.cos(mAngle) + mY + .5);
 			}
 			
-			g.setColor(Color.red); // set color of flame
+			/*
+			 * draw the flame
+			 */
+			g.setColor(Color.red);
 			g.fillPolygon(mFlameXpoints, mFlameYpoints, 3);
 		}
-		// calculate the polygon for the ship, then draw it
+		
+		/*
+		 * calculate the polygon for the ship, then draw it
+		 */
 		for (int i = 0; i < 4; i++) {
 			this.mXpoints[i] = (int) (this.mOrigXpoints[i] * Math.cos(mAngle) - this.mOrigYpoints[i] * Math.sin(mAngle) + mX + .5);
 			this.mYpoints[i] = (int) (this.mOrigXpoints[i] * Math.sin(mAngle) + this.mOrigYpoints[i] * Math.cos(mAngle) + mY + .5);
 		}
 
+		/*
+		 * draw the ship dark gray if the game is paused
+		 */
 		if (isActive)
 			g.setColor(mColor);
 		else
-			// draw the ship dark gray if the game is paused
 			g.setColor(Color.darkGray);
 		
-		g.fillPolygon(mXpoints, mYpoints, 4); // 4 is the number of points
+		g.fillPolygon(mXpoints, mYpoints, 4);
 	}
 	
 	/**
@@ -156,7 +167,7 @@ public class Ship extends MovingSpaceObject implements Drawable {
 	 * @see com.RickBarrette.asteroids.MovingSpaceObject#move(int, int)
 	 */
 	@Override
-	public void move(int scrnWidth, int scrnHeight) {
+	public void move(final int scrnWidth, final int scrnHeight) {
 		/*
 		 * move() is called every frame that the game
 		 * is run, so this ticks down the shot delay

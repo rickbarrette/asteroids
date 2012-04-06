@@ -26,7 +26,7 @@ import java.awt.Color;
  * More accuractly the object's location and color.
  * @author ricky barrette
  */
-public class SpaceObject {
+public abstract class SpaceObject implements Drawable{
 
 	protected Color mColor;
 	protected double mX;
@@ -61,7 +61,7 @@ public class SpaceObject {
 	 * @param c
 	 * @author ricky barrette
 	 */
-	public void setColor(Color c) {
+	public void setColor(final Color c) {
 		this.mColor = c;
 	}
 	
@@ -71,7 +71,7 @@ public class SpaceObject {
 	 * @param y1
 	 * @author ricky barrette
 	 */
-	public void setLocation(int x, int y) {
+	public void setLocation(final int x, final int y) {
 		mX = x;
 		mY = y;
 	}

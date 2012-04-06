@@ -40,16 +40,16 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 
 	private static final long serialVersionUID = -2051298505681885632L;
 
-	private Status mStatusBar;
-	private Display mDisplay;
-	private AsteroidGame mGame;
+	private final Status mStatusBar;
+	private final Display mDisplay;
+	private final AsteroidGame mGame;
 
 	/**
 	 * Creates a new GameFrame
 	 * @param g
 	 * @author ricky barrette
 	 */
-	public GameFrame(AsteroidGame g) {
+	public GameFrame(final AsteroidGame g) {
 		super("ASTEROIDS");
 		mGame = g;
 
@@ -103,10 +103,9 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	 * (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getActionCommand().equals("New Game")) {
 			mGame.newGame();
-			mDisplay.repaint();
 		}
 		
 		if (e.getActionCommand().equals("Start")) {
@@ -127,7 +126,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	 * @param isKeyPressed
 	 * @author ricky barrette
 	 */
-	private void driveShip(KeyEvent e, boolean isKeyPressed) {
+	private void driveShip(final KeyEvent e, final boolean isKeyPressed) {
 		Ship ship = null;
 		//get the user's ship
 		for (Object item : mGame.getWorld()) {
@@ -223,7 +222,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 	 */
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(final KeyEvent e) {
 		
 		switch(e.getKeyCode()){
 		/*
@@ -247,12 +246,12 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
 	 */
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void keyReleased(final KeyEvent e) {
 		driveShip(e, false);
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void keyTyped(final KeyEvent e) {
 	}
 
 	/**
@@ -278,7 +277,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	 * @param string to be displayed
 	 * @author ricky barrette
 	 */
-	public void setDisplayText(String string) {
+	public void setDisplayText(final String string) {
 		mDisplay.setDisplayText(string);
 		this.repaint();
 	}

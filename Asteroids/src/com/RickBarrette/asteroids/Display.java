@@ -1,5 +1,5 @@
 /**
-java  * Display.java
+ * Display.java
  * @date Mar 31, 2012
  * @author ricky barrette
  * 
@@ -35,10 +35,9 @@ import javax.swing.JPanel;
 public class Display extends JPanel {
 
 	private static final long serialVersionUID = -9105117186423881937L;
-	private AsteroidGame mGame;
-	private Container mContainer;
+	private final AsteroidGame mGame;
+	private final Font mFont;
 	private String mText;
-	private Font mFont;
 
 	/**
 	 * Creates a new Dispay
@@ -46,11 +45,10 @@ public class Display extends JPanel {
 	 * @param g
 	 * @author ricky barrette
 	 */
-	public Display(Container c, AsteroidGame g) {
+	public Display(final Container c, final AsteroidGame g) {
 		mGame = g;
-		mContainer = c;
 		this.setBackground(new Color(0, 0, 0));
-		mContainer.add(this, BorderLayout.CENTER);
+		c.add(this, BorderLayout.CENTER);
 		int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
 	    int fontSize = (int)Math.round(14.0 * screenRes / 72.0);
 	    mFont = new Font("Arial", Font.PLAIN, fontSize);
@@ -61,9 +59,8 @@ public class Display extends JPanel {
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override
-	public void paintComponent(Graphics g) {
+	public void paintComponent(final Graphics g) {
 		super.paintComponent(g);
-		
 
 		/*
 		 * Move & Draw the world's objects
@@ -93,7 +90,12 @@ public class Display extends JPanel {
 		}
 	}
 
-	public void setDisplayText(String string) {
+	/**
+	 * Sets the text to be displayed in the center of the game's display
+	 * @param string
+	 * @author ricky barrette
+	 */
+	public void setDisplayText(final String string) {
 		mText = string;		
 	}
 }

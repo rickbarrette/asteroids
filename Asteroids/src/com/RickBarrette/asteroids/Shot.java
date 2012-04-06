@@ -26,19 +26,19 @@ import java.awt.Graphics;
  * This class will bt the shots fired bt the ship. Their job is to destroy the asteroids
  * @author ricky barrette
  */
-public class Shot extends MovingSpaceObject implements Drawable {
+public class Shot extends MovingSpaceObject {
 	
 	public static final int TOTAL_DRAWS = 50;
 	public static final int SPEED = 10;
+	private final AsteroidGame mGame;;
 	private int mCount = 0;
-	private AsteroidGame mGame;;
 
 	/**
 	 * Creates a new shot
 	 * @author ricky barrette
 	 * @param mGame 
 	 */
-	public Shot(double x, double y, double angle, double shipXVel, double shipYVel, AsteroidGame game) {
+	public Shot(final double x, final double y, final double angle, final double shipXVel, final double shipYVel, final AsteroidGame game) {
 		mX = x;
 		mY = y;
 		mAngle = angle;

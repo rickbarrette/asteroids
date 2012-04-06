@@ -33,7 +33,7 @@ import javax.swing.JPanel;
 public class Status extends JPanel {
 
 	private static final long serialVersionUID = -169321993637429941L;
-	private JLabel status;
+	private final JLabel status;
 	private StringBuffer mBuffer;
 	private int mShotCount = 0;
 	private int mAsteroidCount = 0;
@@ -48,7 +48,7 @@ public class Status extends JPanel {
 	 * @param g
 	 * @author ricky barrette
 	 */
-	public Status(Container container, AsteroidGame g) {
+	public Status(final Container container, final AsteroidGame g) {
 		JPanel northSubPanel = new JPanel();
 		status = new JLabel("Missiles 0 Asteroids 0 Ships 0 Score 0 Time: 0");
 		northSubPanel.add(status);
@@ -79,7 +79,7 @@ public class Status extends JPanel {
 	 * @param score
 	 * @author ricky barrette
 	 */
-	public synchronized void decrementScore(int score) {
+	public synchronized void decrementScore(final int score) {
 		if(this.mScore - mScore > 0)
 			this.mScore -= mScore;
 	}
@@ -107,7 +107,7 @@ public class Status extends JPanel {
 	 * @param mTime
 	 * @author ricky barrette
 	 */
-	public synchronized void decrementTime(long mTime) {
+	public synchronized void decrementTime(final long mTime) {
 		if(this.mTime - mTime > 0)
 		this.mTime -= mTime;
 	}
@@ -175,7 +175,7 @@ public class Status extends JPanel {
 	 * @param score
 	 * @author ricky barrette
 	 */
-	public synchronized void incrementScore(int score) {
+	public synchronized void incrementScore(final int score) {
 		this.mScore += score;
 	}
 	
@@ -200,7 +200,7 @@ public class Status extends JPanel {
 	 * @param mTime
 	 * @author ricky barrette
 	 */
-	public synchronized void incrementTime(long mTime) {
+	public synchronized void incrementTime(final long mTime) {
 		this.mTime += mTime;
 	}
 	
@@ -210,7 +210,7 @@ public class Status extends JPanel {
 	 * @return formated string
 	 * @author ricky barrette
 	 */
-	private String padTime(int time){
+	private String padTime(final int time){
 		if (time <= 9)
 			return "0"+ time;
 		return ""+ time;
@@ -219,42 +219,42 @@ public class Status extends JPanel {
 	/**
 	 * @param mAsteroidCount the mAsteroidCount to set
 	 */
-	public synchronized void setAsteroidCount(int mAsteroidCount) {
+	public synchronized void setAsteroidCount(final int mAsteroidCount) {
 		this.mAsteroidCount = mAsteroidCount;
 	}
 
 	/**
 	 * @param level the level to set
 	 */
-	public void setLevel(int level) {
+	public void setLevel(final int level) {
 		this.mLevel = level;
 	}
 
 	/**
 	 * @param mScore the mScore to set
 	 */
-	public synchronized void setScore(long mScore) {
+	public synchronized void setScore(final long mScore) {
 		this.mScore = mScore;
 	}
 
 	/**
 	 * @param mShipCount the mShipCount to set
 	 */
-	public synchronized void setShipCount(int mShipCount) {
+	public synchronized void setShipCount(final int mShipCount) {
 		this.mShipCount = mShipCount;
 	}
 	
 	/**
 	 * @param mShotCount the mShotCount to set
 	 */
-	public synchronized void setShotCount(int mShotCount) {
+	public synchronized void setShotCount(final int mShotCount) {
 		this.mShotCount = mShotCount;
 	}
 	
 	/**
 	 * @param mTime the mTime to set
 	 */
-	public synchronized void setTime(long mTime) {
+	public synchronized void setTime(final long mTime) {
 		this.mTime = mTime;
 	}
 
@@ -264,12 +264,11 @@ public class Status extends JPanel {
 	 * @return human readable hour : minutes format
 	 * @author ricky barrette
 	 */
-	private String stringTime(long mills){
-		int hours = (int) (mills / 3600000);
-		mills = mills - (hours * 3600000);
-		int minutes = (int) ( mills / 60000);
-		int seconds = (int) (mills % 60000);
-		seconds = seconds / 1000;
+	private String stringTime(final long mills){
+		final int hours = (int) (mills / 3600000);
+		final long millsMinusHours = mills - (hours * 3600000);
+		final int minutes = (int) ( millsMinusHours / 60000);
+		final int seconds = ((int) (millsMinusHours % 60000)) / 1000;
 		return hours +" : "+ padTime(minutes) +" : "+ padTime(seconds);
 	}
 	

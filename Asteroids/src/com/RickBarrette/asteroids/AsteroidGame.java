@@ -50,7 +50,7 @@ public class AsteroidGame extends Thread {
 	 * @param add
 	 * @author ricky barrette
 	 */
-	public synchronized void addElement(Object o) {
+	public synchronized void addElement(final Object o) {
 		mWorld.add(o);
 	}
 
@@ -102,7 +102,7 @@ public class AsteroidGame extends Thread {
 	 * @param ship
 	 * @author ricky barrette
 	 */
-	public void hyperJump(Ship ship) {
+	public void hyperJump(final Ship ship) {
 //		boolean isSafe = true;
 		Random gen = new Random();
 //		do{
@@ -162,6 +162,7 @@ public class AsteroidGame extends Thread {
 		startGame();
 		
 		notification("Level "+ mGameFrame.getStatusBar().getLevel());
+		mGameFrame.repaintDispaly();
 	}
 
 	/**
@@ -201,7 +202,7 @@ public class AsteroidGame extends Thread {
 	 * @param o object to be removed
 	 * @author ricky barrette
 	 */
-	public synchronized void removeElement(Object o) {
+	public synchronized void removeElement(final Object o) {
 		if(o instanceof Asteroid) {
 			mGameFrame.getStatusBar().incrementScore(2);
 		}
@@ -305,7 +306,7 @@ public class AsteroidGame extends Thread {
 	 * @param b
 	 * @author ricky barrette
 	 */
-	public void setMovingSpaceObjectsEnabled(boolean b) {
+	public void setMovingSpaceObjectsEnabled(final boolean b) {
 		for(Object item : mWorld)
 			if(item instanceof MovingSpaceObject)
 				((MovingSpaceObject) item).setActive(b);	

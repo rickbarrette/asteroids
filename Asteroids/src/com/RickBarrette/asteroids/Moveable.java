@@ -25,11 +25,11 @@ package com.RickBarrette.asteroids;
  */
 public interface Moveable {
 
-	public void move(int scrnWidth, int scrnHeight);
+	public void move(final int scrnWidth, final int scrnHeight);
 	
-	public void setAccelerating(boolean accelerating);
+	public void setAccelerating(final boolean accelerating);
 
-	public void setTurningLeft(boolean turningLeft);
+	public void setTurningLeft(final boolean turningLeft);
 
-	public void setTurningRight(boolean turningRight);	
+	public void setTurningRight(final boolean turningRight);	
 }

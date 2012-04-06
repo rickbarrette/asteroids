@@ -26,6 +26,6 @@ package com.RickBarrette.asteroids;
  */
 public interface Collider {
 	
-	public boolean checkForCollision(Object o);
+	public boolean checkForCollision(final Object o);
 	
 }

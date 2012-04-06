@@ -25,16 +25,20 @@ package com.RickBarrette.asteroids;
  * @author ricky barrette
  */
 public class Main {
-
+	
 	public static final boolean DEBUG = false;
+	private static final AsteroidGame mGame;
+
+	static {
+		mGame = new AsteroidGame();
+	}
 	
 	/**
 	 * Creates a new Main
 	 * @author ricky barrette
 	 */
 	public Main() {
-		AsteroidGame game = new AsteroidGame();
-		game.newGame();
+		mGame.newGame();
 	}
 
 	/**

@@ -23,7 +23,7 @@ package com.RickBarrette.asteroids;
  * This class will track the information required for moving objects.
  * @author ricky barrette
  */
-public class MovingSpaceObject extends SpaceObject implements Moveable{
+public abstract class MovingSpaceObject extends SpaceObject implements Moveable{
 	
 	protected double mAngle;
 	protected double mVelocityDecay = 1;
@@ -83,7 +83,7 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 	 * @see com.RickBarrette.asteroids.Moveable#move(int, int)
 	 */
 	@Override
-	public void move(int scrnWidth, int scrnHeight) {
+	public void move(final int scrnWidth, final int scrnHeight) {
 		if(isActive){
 			/*
 			 * this is backwards from typical polar coordinates
@@ -135,7 +135,7 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 	 * @see com.RickBarrette.asteroids.Moveable#setAccelerating(boolean)
 	 */
 	@Override
-	public void setAccelerating(boolean accelerating) {
+	public void setAccelerating(final boolean accelerating) {
 		this.isAccelerating = accelerating; // start or stop accelerating the ship
 	}
 
@@ -144,7 +144,7 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 	 * @param active
 	 * @author ricky barrette
 	 */
-	public void setActive(boolean active) {
+	public void setActive(final boolean active) {
 		this.isActive = active; // used when the game is paused or unpaused
 	}
 	
@@ -154,7 +154,7 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 	 * @see com.RickBarrette.asteroids.Moveable#setTurningLeft(boolean)
 	 */
 	@Override
-	public void setTurningLeft(boolean turningLeft) {
+	public void setTurningLeft(final boolean turningLeft) {
 		this.isTurningLeft = turningLeft; // start or stop turning the ship
 	}
 
@@ -164,7 +164,7 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 	 * @see com.RickBarrette.asteroids.Moveable#setTurningRight(boolean)
 	 */
 	@Override
-	public void setTurningRight(boolean turningRight) {
+	public void setTurningRight(final boolean turningRight) {
 		this.isTurningRight = turningRight;
 	}
 	
@@ -173,7 +173,7 @@ public class MovingSpaceObject extends SpaceObject implements Moveable{
 	 * when it goes out of the screen's bounds
 	 * @author ricky barrette
 	 */
-	public void wrapSpace(int scrnHeight, int scrnWidth) {
+	public void wrapSpace(final int scrnHeight, final int scrnWidth) {
 		if (mX < 0)
 			mX += scrnHeight; 
 		else if (mX > scrnHeight)

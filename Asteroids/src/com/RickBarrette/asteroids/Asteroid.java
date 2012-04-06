@@ -26,14 +26,14 @@ import java.awt.Graphics;
  * This class will be used to make astroids, to destroy the ship!
  * @author ricky barrette
  */
-public class Asteroid extends MovingSpaceObject implements Collider, Drawable {
+public class Asteroid extends MovingSpaceObject implements Collider {
 
 	private final int mNumberSplit;
 	private final int mHitsLeft;
 	private final int mRadius;
 	private final double mMinVelocity;
 	private final double mMaxVelocity;
-	private AsteroidGame mGame;
+	private final AsteroidGame mGame;
 
 	/**
 	 * Creates a new Asteroid
