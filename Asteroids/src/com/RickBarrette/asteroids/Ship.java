@@ -36,7 +36,7 @@ public class Ship extends MovingSpaceObject {
 	private final int mShotDelay;
 	private int[] mXpoints = new int[4], mYpoints = new int[4], mFlameXpoints = new int[3], mFlameYpoints = new int[3];
 	private int mShotDelayLeft;
-	private final AsteroidGame mGame;
+	private final AsteroidGameThread mGame;
 
 	/**
 	 * radius of circle used to approximate the ship
@@ -55,7 +55,7 @@ public class Ship extends MovingSpaceObject {
 	 * @author ricky barrette
 	 * @param game 
 	 */
-	public Ship(final double x, final double y, final double angle, final double acceleration, final double velocityDecay, final double rotationalSpeed, final int shotDelay, final AsteroidGame game) {
+	public Ship(final double x, final double y, final double angle, final double acceleration, final double velocityDecay, final double rotationalSpeed, final int shotDelay, final AsteroidGameThread game) {
 		this.mX = x;
 		this.mY = y;
 		this.mAngle = angle;
@@ -96,9 +96,6 @@ public class Ship extends MovingSpaceObject {
 	 */
 	@Override
 	public void draw(final Graphics g) {
-		
-		if(Main.DEBUG)
-			System.out.println("draw()"+ mX + ", "+ mY);
 		
 		/*
 		 * rotate the points, translate them to the ship's location (by

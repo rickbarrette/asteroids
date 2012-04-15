@@ -30,7 +30,7 @@ public class Shot extends MovingSpaceObject {
 	
 	public static final int TOTAL_DRAWS = 50;
 	public static final int SPEED = 10;
-	private final AsteroidGame mGame;;
+	private final AsteroidGameThread mGame;;
 	private int mCount = 0;
 
 	/**
@@ -38,7 +38,7 @@ public class Shot extends MovingSpaceObject {
 	 * @author ricky barrette
 	 * @param mGame 
 	 */
-	public Shot(final double x, final double y, final double angle, final double shipXVel, final double shipYVel, final AsteroidGame game) {
+	public Shot(final double x, final double y, final double angle, final double shipXVel, final double shipYVel, final AsteroidGameThread game) {
 		mX = x;
 		mY = y;
 		mAngle = angle;

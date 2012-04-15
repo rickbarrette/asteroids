@@ -33,7 +33,7 @@ public class Asteroid extends MovingSpaceObject implements Collider {
 	private final int mRadius;
 	private final double mMinVelocity;
 	private final double mMaxVelocity;
-	private final AsteroidGame mGame;
+	private final AsteroidGameThread mGame;
 
 	/**
 	 * Creates a new Asteroid
@@ -45,7 +45,7 @@ public class Asteroid extends MovingSpaceObject implements Collider {
 	 * @param hitsLeft number of hits left
 	 * @author ricky barrette
 	 */
-	public Asteroid(double x, double y, double minVelocity, double maxVelocity, int radius, int numberSplit, int hitsLeft, AsteroidGame game) {
+	public Asteroid(double x, double y, double minVelocity, double maxVelocity, int radius, int numberSplit, int hitsLeft, AsteroidGameThread game) {
 		mGame = game;
 		mColor = new Color(66,33,0);
 		mX = x;

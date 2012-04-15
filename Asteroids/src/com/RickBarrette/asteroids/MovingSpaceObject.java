@@ -130,9 +130,6 @@ public abstract class MovingSpaceObject extends SpaceObject implements Moveable{
 			
 			// adds accel to velocity in direction pointed
 			if (isAccelerating) {
-				if(Main.DEBUG)
-					System.out.println("accelerating by "+mAcceleration);
-				
 				// calculates components of accel and adds them to velocity
 				mXVelocity += mAcceleration * Math.cos(mAngle);
 				mYVelocity += mAcceleration * Math.sin(mAngle);
