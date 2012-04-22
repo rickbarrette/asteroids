@@ -60,10 +60,7 @@ public class GameApplet extends JApplet implements ActionListener, KeyListener {
 		
 		if (e.getActionCommand().equals("Pause")) {
 			mGameThread.pauseGame();
-		}
-		
-		if (e.getActionCommand().equals("Quit"))
-			System.exit(0);
+		}		
 	}
 	
 	/**
@@ -183,16 +180,13 @@ public class GameApplet extends JApplet implements ActionListener, KeyListener {
 		JMenuItem menuNewGame = new JMenuItem("New Game");
 		JMenuItem menuStartGame = new JMenuItem("Start");
 		JMenuItem menuPauseGame = new JMenuItem("Pause");
-		JMenuItem menuQuit = new JMenuItem("Quit");
 
 		fileMenu.add(menuNewGame);
 		fileMenu.addSeparator();
 		fileMenu.add(menuStartGame);
 		fileMenu.add(menuPauseGame);
 		fileMenu.addSeparator();
-		fileMenu.add(menuQuit);
 		menuNewGame.addActionListener(this);
-		menuQuit.addActionListener(this);
 		menuStartGame.addActionListener(this);
 		menuPauseGame.addActionListener(this);
 
