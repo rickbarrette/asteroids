@@ -214,6 +214,12 @@ public class AsteroidGameThread extends Thread {
 			if(isStarted) {
 				
 				/*
+				 * brute force focus,
+				 * this seems to be the only fix I can find, for now 
+				 */
+				mGameApplet.requestFocus();
+				
+				/*
 				 * increment time
 				 */
 				mGameApplet.getStatusBar().incrementTime(System.currentTimeMillis() - mLastTime);

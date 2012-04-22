@@ -216,6 +216,9 @@ public class GameApplet extends JApplet implements ActionListener, KeyListener {
 		repaint();
 
 		mGameThread.newGame();
+		
+		this.setFocusable(true);
+		this.requestFocus();
 	}
 
 	/**
@@ -254,6 +257,20 @@ public class GameApplet extends JApplet implements ActionListener, KeyListener {
 
 	@Override
 	public void keyTyped(final KeyEvent e) {
+		switch(e.getKeyCode()){
+		/*
+		 * [Enter]  
+		 * Start of pause the game
+		 */
+		case KeyEvent.VK_ENTER:
+			if(mGameThread.isStarted)
+				mGameThread.pauseGame();
+			else
+				mGameThread.startGame();
+			break;
+		}
+		
+		driveShip(e, true);	
 	}
 
 	/**
