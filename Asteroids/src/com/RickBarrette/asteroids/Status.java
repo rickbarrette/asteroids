@@ -48,7 +48,7 @@ public class Status extends JPanel {
 	 * @param g
 	 * @author ricky barrette
 	 */
-	public Status(final Container container, final AsteroidGame g) {
+	public Status(final Container container, final AsteroidGameThread g) {
 		JPanel northSubPanel = new JPanel();
 		status = new JLabel("Missiles 0 Asteroids 0 Ships 0 Score 0 Time: 0");
 		northSubPanel.add(status);

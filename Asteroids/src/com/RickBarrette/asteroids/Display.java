@@ -35,7 +35,7 @@ import javax.swing.JPanel;
 public class Display extends JPanel {
 
 	private static final long serialVersionUID = -9105117186423881937L;
-	private final AsteroidGame mGame;
+	private final AsteroidGameThread mGame;
 	private final Font mFont;
 	private String mText;
 
@@ -45,7 +45,7 @@ public class Display extends JPanel {
 	 * @param g
 	 * @author ricky barrette
 	 */
-	public Display(final Container c, final AsteroidGame g) {
+	public Display(final Container c, final AsteroidGameThread g) {
 		mGame = g;
 		this.setBackground(new Color(0, 0, 0));
 		c.add(this, BorderLayout.CENTER);

@@ -26,7 +26,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JFrame;
+import javax.swing.JApplet;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -36,68 +36,14 @@ import javax.swing.JMenuItem;
  * It will be used to display all the game's information to the user and handle key events from the user
  * @author ricky barrette
  */
-public class GameFrame extends JFrame implements KeyListener, ActionListener{
+public class GameApplet extends JApplet implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = -2051298505681885632L;
 
-	private final Status mStatusBar;
-	private final Display mDisplay;
-	private final AsteroidGame mGame;
-
-	/**
-	 * Creates a new GameFrame
-	 * @param g
-	 * @author ricky barrette
-	 */
-	public GameFrame(final AsteroidGame g) {
-		super("ASTEROIDS");
-		mGame = g;
-
-		/*
-		 * set up the game's menus
-		 */
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		/*
-		 * file menu
-		 */
-		JMenu fileMenu = new JMenu("File");
-		JMenuItem menuNewGame = new JMenuItem("New Game");
-		JMenuItem menuStartGame = new JMenuItem("Start");
-		JMenuItem menuPauseGame = new JMenuItem("Pause");
-		JMenuItem menuQuit = new JMenuItem("Quit");
-
-		fileMenu.add(menuNewGame);
-		fileMenu.addSeparator();
-		fileMenu.add(menuStartGame);
-		fileMenu.add(menuPauseGame);
-		fileMenu.addSeparator();
-		fileMenu.add(menuQuit);
-		menuNewGame.addActionListener(this);
-		menuQuit.addActionListener(this);
-		menuStartGame.addActionListener(this);
-		menuPauseGame.addActionListener(this);
-
-		menuBar.add(fileMenu);
-		
-		FlowLayout layout = new FlowLayout();
-		layout.setAlignment(FlowLayout.LEFT);
-
-		Container container = getContentPane();
-		mStatusBar = new Status(container, mGame);
-		mDisplay = new Display(container, mGame);
-		
-		addKeyListener(this);
-
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-		// sets up window's location and sets size****
-		setSize(1000, 800);
-		setVisible(true);
-
-	}
-
+	private Status mStatusBar;
+	private Display mDisplay;
+	private AsteroidGameThread mGameThread;
+	
 	/**
 	 * Called when a menu item is selected from the benu bar
 	 * (non-Javadoc)
@@ -105,21 +51,18 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	 */
 	public void actionPerformed(final ActionEvent e) {
 		if (e.getActionCommand().equals("New Game")) {
-			mGame.newGame();
+			mGameThread.newGame();
 		}
 		
 		if (e.getActionCommand().equals("Start")) {
-			mGame.startGame();
+			mGameThread.startGame();
 		}
 		
 		if (e.getActionCommand().equals("Pause")) {
-			mGame.pauseGame();
-		}
-		
-		if (e.getActionCommand().equals("Quit"))
-			System.exit(0);
+			mGameThread.pauseGame();
+		}		
 	}
-
+	
 	/**
 	 * Drives the user's ship
 	 * @param e
@@ -129,7 +72,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	private void driveShip(final KeyEvent e, final boolean isKeyPressed) {
 		Ship ship = null;
 		//get the user's ship
-		for (Object item : mGame.getWorld()) {
+		for (Object item : mGameThread.getWorld()) {
 			if (item instanceof Ship) {
 				ship = (Ship) item;
 			}
@@ -217,6 +160,62 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	}
 
 	/**
+	 * (non-Javadoc)
+	 * @see java.applet.Applet#init()
+	 */
+	@Override
+	public void init() {
+		mGameThread = new AsteroidGameThread(this);
+		
+		/*
+		 * set up the game's menus
+		 */
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		/*
+		 * file menu
+		 */
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem menuNewGame = new JMenuItem("New Game");
+		JMenuItem menuStartGame = new JMenuItem("Start");
+		JMenuItem menuPauseGame = new JMenuItem("Pause");
+
+		fileMenu.add(menuNewGame);
+		fileMenu.addSeparator();
+		fileMenu.add(menuStartGame);
+		fileMenu.add(menuPauseGame);
+		fileMenu.addSeparator();
+		menuNewGame.addActionListener(this);
+		menuStartGame.addActionListener(this);
+		menuPauseGame.addActionListener(this);
+
+		menuBar.add(fileMenu);
+		
+		FlowLayout layout = new FlowLayout();
+		layout.setAlignment(FlowLayout.LEFT);
+
+		Container container = getContentPane();
+		mStatusBar = new Status(container, mGameThread);
+		mDisplay = new Display(container, mGameThread);
+
+		this.addKeyListener(this);
+		this.setFocusable(true);
+		this.setFocusCycleRoot(true);
+		this.requestFocusInWindow();
+		
+		setSize(1000, 800);
+		setVisible(true);
+		
+		repaint();
+
+		mGameThread.newGame();
+		
+		this.setFocusable(true);
+		this.requestFocus();
+	}
+
+	/**
 	 * Called when a key is pressed
 	 * (non-Javadoc)
 	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
@@ -230,10 +229,10 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 		 * Start of pause the game
 		 */
 		case KeyEvent.VK_ENTER:
-			if(mGame.isStarted)
-				mGame.pauseGame();
+			if(mGameThread.isStarted)
+				mGameThread.pauseGame();
 			else
-				mGame.startGame();
+				mGameThread.startGame();
 			break;
 		}
 		
@@ -252,6 +251,20 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 
 	@Override
 	public void keyTyped(final KeyEvent e) {
+		switch(e.getKeyCode()){
+		/*
+		 * [Enter]  
+		 * Start of pause the game
+		 */
+		case KeyEvent.VK_ENTER:
+			if(mGameThread.isStarted)
+				mGameThread.pauseGame();
+			else
+				mGameThread.startGame();
+			break;
+		}
+		
+		driveShip(e, true);	
 	}
 
 	/**

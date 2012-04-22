@@ -26,11 +26,11 @@ import java.util.Random;
  * This class maintain's the game logic. It is the main driver
  * @author ricky barrette
  */
-public class AsteroidGame extends Thread {
+public class AsteroidGameThread extends Thread {
 
 	private static final int DELAY_IN_MSEC = 50;
 	private final ArrayList<Object> mWorld;
-	private final GameFrame mGameFrame;
+	private final GameApplet mGameApplet;
 	public boolean isStarted = false;
 	private long mLastTime;
 
@@ -38,8 +38,8 @@ public class AsteroidGame extends Thread {
 	 * Creates an new Asteroids game 
 	 * @author ricky barrette
 	 */
-	public AsteroidGame() {
-		mGameFrame = new GameFrame(this);
+	public AsteroidGameThread(GameApplet gameFrame) {
+		mGameApplet = gameFrame;
 		mWorld = new ArrayList<Object>();
 		//TODO simulate game play unitll game ist started
 		this.start();
@@ -76,25 +76,25 @@ public class AsteroidGame extends Thread {
 			s.hyperJump();
 		}
 		
-		mGameFrame.getStatusBar().decrementShipCount();
+		mGameApplet.getStatusBar().decrementShipCount();
 		
-		if(mGameFrame.getStatusBar().getShipCount() > 0){
+		if(mGameApplet.getStatusBar().getShipCount() > 0){
 			pauseGame();
-			mGameFrame.setDisplayText("You died, You can hyper jump to a safe place now... Press start when ready.");
+			mGameApplet.setDisplayText("You died, You can hyper jump to a safe place now... Press start when ready.");
 		} else {
-			mGameFrame.setDisplayText("Game Over");
+			mGameApplet.setDisplayText("Game Over");
 			if(s != null)
 				mWorld.remove(s);
 		}
-		mGameFrame.repaint();
+		mGameApplet.repaint();
 	}
 
 	/**
 	 * @return the game's frame
 	 * @author ricky barrette
 	 */
-	public GameFrame getGameFrame() {
-		return this.mGameFrame;
+	public GameApplet getGameFrame() {
+		return this.mGameApplet;
 	}
 	
 	/**
@@ -114,10 +114,10 @@ public class AsteroidGame extends Thread {
 		/*
 		 * added a asteroid per level
 		 */
-		for(int i = 0; i < mGameFrame.getStatusBar().getLevel(); i ++)
-			addElement(new Asteroid(gen.nextInt(mGameFrame.getDisplayWidth()), gen.nextInt(mGameFrame.getDispalyHeight()), 1, 10, 50, 3, 3, this));
+		for(int i = 0; i < mGameApplet.getStatusBar().getLevel(); i ++)
+			addElement(new Asteroid(gen.nextInt(mGameApplet.getDisplayWidth()), gen.nextInt(mGameApplet.getDispalyHeight()), 1, 10, 50, 3, 3, this));
 		
-		notification("Level "+ mGameFrame.getStatusBar().getLevel());
+		notification("Level "+ mGameApplet.getStatusBar().getLevel());
 	}
 
 	/**
@@ -135,23 +135,23 @@ public class AsteroidGame extends Thread {
 	public void newGame() {
 		Random gen = new Random();
 		mWorld.clear();
-		mGameFrame.setDisplayText(null);
+		mGameApplet.setDisplayText(null);
 		
-		mGameFrame.getStatusBar().setShipCount(3);
-		mGameFrame.getStatusBar().setScore(0);
-		mGameFrame.getStatusBar().setAsteroidCount(1);
-		mGameFrame.getStatusBar().setTime(0);
-		mGameFrame.getStatusBar().setShotCount(0);
-		mGameFrame.getStatusBar().setLevel(1);
+		mGameApplet.getStatusBar().setShipCount(3);
+		mGameApplet.getStatusBar().setScore(0);
+		mGameApplet.getStatusBar().setAsteroidCount(1);
+		mGameApplet.getStatusBar().setTime(0);
+		mGameApplet.getStatusBar().setShotCount(0);
+		mGameApplet.getStatusBar().setLevel(1);
 		
-		mWorld.add(new Ship(gen.nextInt(mGameFrame.getDisplayWidth()), gen.nextInt(mGameFrame.getDispalyHeight()), 0, .35, .98, .2, 1, this));
+		mWorld.add(new Ship(gen.nextInt(mGameApplet.getDisplayWidth()), gen.nextInt(mGameApplet.getDispalyHeight()), 0, .35, .98, .2, 1, this));
 		
 		initLevel();
 		
 		startGame();
 		
-		notification("Level "+ mGameFrame.getStatusBar().getLevel());
-		mGameFrame.repaintDispaly();
+		notification("Level "+ mGameApplet.getStatusBar().getLevel());
+		mGameApplet.repaintDispaly();
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class AsteroidGame extends Thread {
 	 * @author ricky barrette
 	 */
 	private void notification(final String string) {
-		mGameFrame.setDisplayText(string);
+		mGameApplet.setDisplayText(string);
 		
 		new Thread(new Runnable(){
 			@Override
@@ -171,7 +171,7 @@ public class AsteroidGame extends Thread {
 					e.printStackTrace();
 				}
 				if(isStarted)
-					mGameFrame.setDisplayText(null);
+					mGameApplet.setDisplayText(null);
 			}
 		}).start();
 	}
@@ -182,7 +182,7 @@ public class AsteroidGame extends Thread {
 	 */
 	public synchronized void pauseGame(){
 		isStarted = false;
-		mGameFrame.setDisplayText("Paused");
+		mGameApplet.setDisplayText("Paused");
 		setMovingSpaceObjectsEnabled(false);
 	}
 
@@ -193,7 +193,7 @@ public class AsteroidGame extends Thread {
 	 */
 	public synchronized void removeElement(final Object o) {
 		if(o instanceof Asteroid) {
-			mGameFrame.getStatusBar().incrementScore(2);
+			mGameApplet.getStatusBar().incrementScore(2);
 		}
 		mWorld.remove(o);
 	}
@@ -214,16 +214,22 @@ public class AsteroidGame extends Thread {
 			if(isStarted) {
 				
 				/*
+				 * brute force focus,
+				 * this seems to be the only fix I can find, for now 
+				 */
+				mGameApplet.requestFocus();
+				
+				/*
 				 * increment time
 				 */
-				mGameFrame.getStatusBar().incrementTime(System.currentTimeMillis() - mLastTime);
+				mGameApplet.getStatusBar().incrementTime(System.currentTimeMillis() - mLastTime);
 				mLastTime = System.currentTimeMillis();
 				
 				/*
 				 * update the display and stats
 				 */
-				mGameFrame.repaintDispaly();
-				mGameFrame.getStatusBar().updateStatus();
+				mGameApplet.repaintDispaly();
+				mGameApplet.getStatusBar().updateStatus();
 				
 				/*
 				 * check for collsions
@@ -250,16 +256,16 @@ public class AsteroidGame extends Thread {
 				 * if there are no more asteroids, then increment the level
 				 */
 				if(asteroidCount == 0){
-					mGameFrame.getStatusBar().incrementLevel();
+					mGameApplet.getStatusBar().incrementLevel();
 					initLevel();
 				}
 				
 				/*
 				 * 1up every 200 points
 				 */
-				if(mGameFrame.getStatusBar().getScore() > 0 && mGameFrame.getStatusBar().getScore() % 200 == 0){
+				if(mGameApplet.getStatusBar().getScore() > 0 && mGameApplet.getStatusBar().getScore() % 200 == 0){
 					if(!hasOneUped){
-						mGameFrame.getStatusBar().incrementShipCount();
+						mGameApplet.getStatusBar().incrementShipCount();
 						hasOneUped = true;
 										
 						notification("1up!");
@@ -270,8 +276,8 @@ public class AsteroidGame extends Thread {
 				/*
 				 * update the status bar with the new counts
 				 */
-				mGameFrame.getStatusBar().setShotCount(shotCount);
-				mGameFrame.getStatusBar().setAsteroidCount(asteroidCount);
+				mGameApplet.getStatusBar().setShotCount(shotCount);
+				mGameApplet.getStatusBar().setAsteroidCount(asteroidCount);
 				
 				/*
 				 * reset counters
@@ -315,7 +321,7 @@ public class AsteroidGame extends Thread {
 	 */
 	public synchronized void startGame(){
 		mLastTime = System.currentTimeMillis();
-		mGameFrame.setDisplayText(null);
+		mGameApplet.setDisplayText(null);
 		setMovingSpaceObjectsEnabled(true);
 		isStarted = true;	
 	}
